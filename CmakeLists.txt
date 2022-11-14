@@ -22,7 +22,7 @@ aux_source_directory("./src" src_list)
 aux_source_directory("./test" test_list)
 
 project(unise)
-add_executable(unise ${SRC_FILES})
+#add_executable(unise ${SRC_FILES})
 
 # ============= test ================
 enable_testing()
