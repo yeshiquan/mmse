@@ -67,6 +67,36 @@ TEST_F(SkipListTest, test_basic) {
     }
 }
 
+TEST_F(SkipListTest, test_simple_iterator) {
+    int N = 200;
+    int init_height = std::log2(100);
+    auto* sl = new unise::SkipList<int>(init_height);
+    std::vector<int> elements;
+
+    for (int i = 1; i <= N; ++i) {
+        elements.emplace_back(i);
+    }
+
+    auto rng = std::default_random_engine {};
+    std::shuffle(std::begin(elements), std::end(elements), rng);    
+
+    for (auto e : elements) {
+        bool is_exist = sl->insert(e);
+        ASSERT_EQ(is_exist, false);
+    }
+    auto iterator = sl->get_simple_iterator();
+    auto* node = iterator.next_node();
+    std::cout << "simple iterator -> [";
+    int n = 0;
+    while (node) {
+        std::cout << node->data() << ",";
+        node = iterator.next_node();
+        n++;
+    }
+    ASSERT_EQ(n, N);
+    std::cout << "]" << std::endl;
+}
+
 TEST_F(SkipListTest, test_remove) {
     int N = 200;
     int init_height = std::log2(100);

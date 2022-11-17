@@ -68,8 +68,23 @@ struct Token {
     std::string   value;
 };
 
+// 这个结构用于查询，查询最基础的粒度是term级别
+struct Term {
+    Term(std::string fn, std::string tv) 
+            : field_name(fn)
+            , term_value(tv) {}
+    Term(Term&& other) 
+            : field_name(std::move(other.field_name))
+            , term_value(std::move(other.term_value))
+            {} 
+    std::string field_name;
+    std::string term_value;
+};
+
 inline size_t gen_term_id(const std::string& term_str) {
     return std::hash<std::string>{}(term_str);
 }
+
+static constexpr DocId NO_MORE_DOCS = INT_MAX;
 
 } // namespace

@@ -12,6 +12,9 @@ public:
         _skip_list.insert(doc_id);
     }
     const SkipList<DocId>& get_skip_list() const { return _skip_list; };
+    static auto get_empty_iterator() {
+        return SkipList<DocId>::get_empty_simple_iterator();
+    }
 private:
     TermId _term_id;
     float _avg_field_len;

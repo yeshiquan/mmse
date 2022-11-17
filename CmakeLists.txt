@@ -19,23 +19,25 @@ include_directories(src)
 add_definitions(-std=c++17 -O3)
 
 aux_source_directory("./src" src_list)
+aux_source_directory("./src/search" search_src_list)
 aux_source_directory("./test" test_list)
 
-project(unise)
-#add_executable(unise ${SRC_FILES})
+project(mmse)
+#add_executable(mmse ${SRC_FILES})
 
 # ============= test ================
 enable_testing()
 
 add_executable(
-  unise_test
+  mmse_test
   ${test_list}
   ${src_list}
+  ${search_src_list}
 )
 target_link_libraries(
-    unise_test
+    mmse_test
   GTest::gtest_main
 )
 
 include(GoogleTest)
-gtest_discover_tests(unise_test)
+gtest_discover_tests(mmse_test)

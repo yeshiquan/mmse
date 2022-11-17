@@ -24,7 +24,11 @@ class SkipList {
     template<bool C>
     class Iterator {
     public:
-        Iterator(NodeType* node) : _node(node) {}
+        friend class SkipList;
+        Iterator() = default;
+        Iterator(NodeType* node, const SkipListType* list) 
+                    : _node(node) 
+                    , _list(list){}
         ~Iterator() {}
 
         const T& operator*() const {
@@ -60,6 +64,10 @@ class SkipList {
             ++*this;
             return prev;
         }
+        const Iterator& skip_to(ValueType target) {
+            _node = _list->skip_to(target);
+            return *this;
+        }
         bool operator==(const Iterator& o) const {
             return _node == o._node;
         }
@@ -74,17 +82,44 @@ class SkipList {
 
         Iterator(const Iterator& o) {
             _node = o._node;
+            _list = o._list;
         }
 
         Iterator(Iterator&& o) {
             _node = o._node;
+            _list = o._list;
         }
         void swap(Iterator& o) {
             std::swap(_node, o._node);
+            std::swap(_list, o._list);
         }
     private:
         NodeType* _node = {nullptr};
-    };    
+        const SkipListType* _list = {nullptr};
+    };
+    class SimpleIterator {
+    public:
+        SimpleIterator() = default;
+        SimpleIterator(const SkipListType* list) : _list(list) {}
+        NodeType* next_node() {
+            if (_node == nullptr) {
+                _node = _list->head_->skip(0);
+            } else {
+                _node = _node->skip(0);
+            }
+            return _node;
+        }
+        NodeType* node() {
+            return _node;
+        }
+        NodeType* skip_to(const T& target) {
+            _node = _list->skip_to(target);
+            return _node;
+        }
+    private:
+        NodeType* _node = {nullptr};
+        const SkipListType* _list = {nullptr};        
+    };
 public:
     SkipList(uint8_t init_height) : alloc_(NodeAlloc()) {
         head_ = NodeType::create(alloc_, init_height, ValueType());
@@ -103,19 +138,29 @@ public:
 
     using iterator = Iterator<false>;
     using const_iterator = Iterator<true>;
+    using simple_iterator = SimpleIterator;
     iterator begin() {
-        return iterator(head_->skip(0));
+        return iterator(head_->skip(0), this);
     }
     iterator end() {
-        return iterator(nullptr);
+        return iterator(nullptr, this);
     }
     const_iterator cbegin() const {
-        return const_iterator(head_->skip(0));
+        return const_iterator(head_->skip(0), this);
     }
     const_iterator cend() const {
-        return const_iterator(nullptr);
+        return const_iterator(nullptr, this);
     }
-
+    SimpleIterator get_simple_iterator() const {
+        return SimpleIterator(this);
+    }
+    static SimpleIterator get_empty_simple_iterator() {
+        static SkipListType empty_list;
+        return empty_list.get_simple_iterator();
+    }    
+    NodeType* skip_to(const ValueType& target) const {
+        return _search_equal_or_greater(target);
+    }
     bool insert(const ValueType& data) {
         return insert(data, false);
     }
@@ -185,10 +230,6 @@ public:
         return node != nullptr && node->data() == data;        
     }
 
-    NodeType* advance(const ValueType& data) {
-        return _search_equal_or_greater(data);
-    }    
-
   void print_layer(NodeType* start, int layer, int& n) {
       NodeType* node = start;
       std::cout << "layer[" << layer << "] -> ";
@@ -219,7 +260,7 @@ public:
 private:
     // 寻找 node >= data的节点，同时返回前驱节点
     NodeType* _search_equal_or_greater(const ValueType& data, 
-                                            std::vector<NodeType*>& prevs) {
+                                            std::vector<NodeType*>& prevs) const {
         NodeType* cur = head_;
         NodeType* next = nullptr;
         for(int i = maxLayer(); i >= 0; i--){
@@ -235,7 +276,7 @@ private:
     }
 
     // 寻找 node >= data 的节点
-    NodeType* _search_equal_or_greater(const ValueType& data) {
+    NodeType* _search_equal_or_greater(const ValueType& data) const {
         NodeType* cur = head_;
         NodeType* next = nullptr;
         for(int i = maxLayer(); i >= 0; i--){
