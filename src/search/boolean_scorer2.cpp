@@ -20,6 +20,7 @@ BooleanScorer2::BooleanScorer2(std::vector<Scorer*>& optional, std::vector<Score
 }
 
 Scorer* BooleanScorer2::_make_counting_sum_scorer() {
+    // 开发验证阶段，只处理交集查询
     return new ConjunctionScorer(_required_scorers);
 }
 

@@ -4,6 +4,8 @@
 #include "posting_list.h"
 
 namespace unise {
+
+// TermScorer是最底层的，直接和倒排拉链打交道
  
 class TermScorer : public Scorer {
 public:

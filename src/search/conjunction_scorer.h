@@ -4,6 +4,8 @@
 #include <vector>
 
 namespace unise {
+
+// ConjunctionScorer用于求多条拉链的交集
  
 class ConjunctionScorer : public Scorer {
 public:
