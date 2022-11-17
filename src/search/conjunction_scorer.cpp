@@ -34,7 +34,7 @@ DocId ConjunctionScorer::next_doc() {
         return _last_doc;
     } else if (_last_doc == -1) {
         // 首次调用next_doc()，因为构造函数已经调用align_header对齐头部元素
-        // 这里每条拉链的元素都相同，返回任意1条拉链的头部元素就行
+        // 所以每条拉链的头部元素都相同，返回任意1条拉链的头部元素就行
         return _last_doc = _scorers[0]->doc();
     }
     _scorers.back()->next_doc();
