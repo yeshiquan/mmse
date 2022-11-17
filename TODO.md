@@ -12,7 +12,7 @@ lib库只提供基础的函数级别的api，不提供服务的包装。
 ### 实现检索的功能
     * 设计查询语法树的数据结构 done
     * 实现交集、并集、否定查询
-        * 实现ItemScorer和ConjunctionScorer done
+        * 实现ItemScorer和ConjunctionScorer，可以求多条拉链的交集，参考test_query.cpp done
     * 实现范围查询
 
 ### 实现并行建库、实时增删改查
