@@ -3,11 +3,11 @@
 #include <string>
 #include <vector>
 #include "util.h"
-#include "field.h"
+#include "index/field.h"
 
 #include "index_writer.h"
 #include "engine.h"
-#include "segment_info.h"
+#include "index/segment_info.h"
 
 namespace unise {
 

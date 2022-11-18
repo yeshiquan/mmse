@@ -20,6 +20,8 @@ add_definitions(-std=c++17 -O3)
 
 aux_source_directory("./src" src_list)
 aux_source_directory("./src/search" search_src_list)
+aux_source_directory("./src/container" container_src_list)
+aux_source_directory("./src/index" index_src_list)
 aux_source_directory("./test" test_list)
 
 project(mmse)
@@ -33,6 +35,8 @@ add_executable(
   ${test_list}
   ${src_list}
   ${search_src_list}
+  ${container_src_list}
+  ${index_src_list}
 )
 target_link_libraries(
     mmse_test

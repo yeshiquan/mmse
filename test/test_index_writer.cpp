@@ -12,9 +12,9 @@
 #undef private
 #undef protected
 
-#include "document.h"
+#include "index/document.h"
+#include "index/segment_info.h"
 #include "engine.h"
-#include "segment_info.h"
 
 using namespace unise;
 

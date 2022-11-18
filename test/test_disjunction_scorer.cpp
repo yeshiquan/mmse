@@ -13,9 +13,9 @@
 #undef protected
 #include "defer.h"
 
-#include "document.h"
+#include "index/document.h"
 #include "engine.h"
-#include "segment_info.h"
+#include "index/segment_info.h"
 #include "search/query.h"
 #include "search/boolean_query.h"
 #include "search/term_query.h"

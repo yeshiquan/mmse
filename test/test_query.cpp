@@ -15,10 +15,10 @@
 #undef protected
 #include "defer.h"
 
-#include "document.h"
-#include "engine.h"
-#include "segment_info.h"
+#include "index/document.h"
+#include "index/segment_info.h"
 #include "index_writer.h"
+#include "engine.h"
 
 using namespace unise;
 

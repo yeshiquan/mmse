@@ -1,6 +1,6 @@
 #pragma once
 
-#include "segment_info.h"
+#include "index/segment_info.h"
 
 namespace unise {
  

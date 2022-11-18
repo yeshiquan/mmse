@@ -1,7 +1,7 @@
 #pragma once
 
 #include "query.h"
-#include "heap_queue.h"
+#include "container/heap_queue.h"
 #include <vector>
 #include <queue>
 
@@ -9,8 +9,7 @@ namespace unise {
 
 // 有序并集
 
-class ScorerLess {
-public:
+struct ScorerLess {
     bool operator() (const Scorer* a, const Scorer* b) {
         return a->doc() < b->doc();
     }

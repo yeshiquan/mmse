@@ -8,7 +8,7 @@
 
 #define private public
 #define protected public
-#include "heap_queue.h"
+#include "container/heap_queue.h"
 #undef private
 #undef protected
 

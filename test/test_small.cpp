@@ -22,6 +22,7 @@ struct Scorer {
     Scorer(int d) : doc(d) {}
     int doc;
 }; 
+
 class ScorerLess {
 public:
     bool operator() (const Scorer* a, const Scorer* b) {

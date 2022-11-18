@@ -30,17 +30,19 @@ DocId ReqExclScorer::_skip_to_nonexclude() {
     if (req_doc < excl_doc) {
         return _current_doc = req_doc;
     }
-    // req_doc >= excl_doc
+    // 此时req_doc >= excl_doc
     while (true) {
         if (req_doc == NO_MORE_DOCS) {
             return _current_doc = NO_MORE_DOCS;
         }
         excl_doc = _exclude_scorer->skip_to(req_doc);
-        // req_doc <= excl_doc
+        // 此时req_doc <= excl_doc
         if (req_doc == excl_doc) {
+            // req_doc被排除，不满足条件，试着寻找下一个文档
             req_doc = _required_scorer->next_doc();
             continue;
         } else {
+            // req_doc没有被排除，满足条件
             _current_doc = req_doc;
             break;
         }

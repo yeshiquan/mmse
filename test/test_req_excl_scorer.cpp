@@ -13,9 +13,9 @@
 #undef protected
 #include "defer.h"
 
-#include "document.h"
+#include "index/document.h"
 #include "engine.h"
-#include "segment_info.h"
+#include "index/segment_info.h"
 #include "search/query.h"
 #include "search/boolean_query.h"
 #include "search/term_query.h"
@@ -39,7 +39,6 @@ protected:
 #define BUILD_REQEXCL_SCORER() \
     PostingList list1(111111); \
     PostingList list2(222222); \
-    PostingList list3(333333); \
     auto build_list = [](PostingList& list, std::vector<DocId> docs) { \
         for (auto doc : docs) { \
             list.add_doc(doc); \
@@ -67,6 +66,7 @@ TEST_F(ReqExclScorerTest, test_next_doc) {
 TEST_F(ReqExclScorerTest, test_skip_to) {
     BUILD_REQEXCL_SCORER();
     std::vector<DocId> result;
+
     DocId doc = req_excl_scorer.skip_to(1);
     ASSERT_EQ(doc, 1);
     ASSERT_EQ(req_excl_scorer.doc(), 1);

@@ -1,6 +1,6 @@
 #pragma once
 
-#include "document.h"
+#include "index/document.h"
 #include <vector>
 
 namespace unise {

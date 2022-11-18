@@ -1,7 +1,7 @@
 #pragma once
 
 #include "query.h"
-#include "posting_list.h"
+#include "index/posting_list.h"
 
 namespace unise {
 
