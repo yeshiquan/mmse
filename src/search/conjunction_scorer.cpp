@@ -72,7 +72,7 @@ DocId ConjunctionScorer::skip_to(DocId target) {
     return _last_doc = _align_header();
 }
 
-DocId ConjunctionScorer::doc() {
+DocId ConjunctionScorer::doc() const {
     return _last_doc;
 }
 

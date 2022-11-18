@@ -25,7 +25,7 @@ DocId TermScorer::skip_to(DocId target) {
     return doc();
 }
 
-DocId TermScorer::doc() {
+DocId TermScorer::doc() const {
     auto* node = _doc_iter.node();
     return (node ? node->data() : NO_MORE_DOCS);
 }

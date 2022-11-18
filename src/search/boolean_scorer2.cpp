@@ -32,7 +32,7 @@ DocId BooleanScorer2::skip_to(DocId target) {
     return _counting_sum_scorer->skip_to(target);
 }
 
-DocId BooleanScorer2::doc() {
+DocId BooleanScorer2::doc() const {
     return _counting_sum_scorer->doc();
 }
 

@@ -18,7 +18,7 @@ public:
 
     DocId next_doc() override; 
     DocId skip_to(DocId target) override;   
-    DocId doc() override; 
+    DocId doc() const override; 
 private:
     Scorer* _make_counting_sum_scorer();
 private:

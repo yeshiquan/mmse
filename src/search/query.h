@@ -28,7 +28,7 @@ public:
     }
 
     virtual DocId skip_to(DocId target) = 0;
-    virtual DocId doc() = 0;
+    virtual DocId doc() const = 0;
     virtual DocId next_doc() = 0;
 };
 

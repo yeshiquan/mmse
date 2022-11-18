@@ -109,7 +109,7 @@ class SkipList {
             }
             return _node;
         }
-        NodeType* node() {
+        NodeType* node() const {
             return _node;
         }
         NodeType* skip_to(const T& target) {

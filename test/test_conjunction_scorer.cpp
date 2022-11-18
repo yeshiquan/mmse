@@ -58,13 +58,12 @@ TEST_F(ConjunctionTest, test_basic) {
     ConjunctionScorer conjunction_scorer(requred_scorers);
 
     std::vector<DocId> result;
+    std::vector<DocId> expect_result{13, 98};
     DocId doc = conjunction_scorer.next_doc();
     while (doc != NO_MORE_DOCS) {
         std::cout << ">>>> conjunction doc -> " << doc << std::endl;
         result.emplace_back(doc);
         doc = conjunction_scorer.next_doc();
     }
-    ASSERT_EQ(result.size(), 2);
-    ASSERT_EQ(result[0], 13);
-    ASSERT_EQ(result[1], 98);
+    ASSERT_EQ(result, expect_result);
 }

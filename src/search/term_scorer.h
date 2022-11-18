@@ -20,7 +20,7 @@ public:
 
     DocId next_doc() override; 
     DocId skip_to(DocId target) override;
-    DocId doc() override;
+    DocId doc() const override;
 private:
     SkipList<DocId>::simple_iterator _doc_iter;
 };
