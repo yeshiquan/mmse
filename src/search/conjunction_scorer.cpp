@@ -51,15 +51,15 @@ DocId ConjunctionScorer::next_doc() {
 // list2 -> 3, 9
 // list3 -> 3, 4, 10
 DocId ConjunctionScorer::_align_header() {
-    DocId doc = _scorers.back()->doc();
+    DocId max_doc = _scorers.back()->doc();
     int idx = 0;
-    Scorer* next_scorer = _scorers[idx];
-    while (next_scorer->doc() < doc) {
-        doc = next_scorer->skip_to(doc);
+    Scorer* scorer = _scorers[idx];
+    while (scorer->doc() < max_doc) {
+        max_doc = scorer->skip_to(max_doc);
         idx = (idx + 1) % _scorers.size();
-        next_scorer = _scorers[idx];
+        scorer = _scorers[idx];
     }
-    return doc;
+    return max_doc;
 }
 
 DocId ConjunctionScorer::skip_to(DocId target) {
