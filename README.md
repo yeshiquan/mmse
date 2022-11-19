@@ -14,16 +14,16 @@ void build_index() {
     IndexWriter index_writer;
 
     std::vector<std::string> doc_text = {
-        "a b c d e f g a a a b c", // 0
-        "a b c d e f g a b c", // 1
-        "a b c d e f g a a a", // 2
-        "c d e", // 3
-        "c d e z", // 4
-        "f z c", // 5
-        "f g z", // 6
-        "f g", // 7
-        "f g", // 8
-        "g" // 9
+        "a b c d e f g a a a b c", // doc_id: 0
+        "a b c d e f g a b c", // doc_id: 1
+        "a b c d e f g a a a", // doc_id: 2
+        "c d e", // doc_id: 3
+        "c d e z", // doc_id: 4
+        "f z c", // doc_id: 5
+        "f g z", // doc_id: 6
+        "f g", // doc_id: 7
+        "f g", // doc_id: 8
+        "g" // doc_id: 9
     };
 
     for (int i = 0; i < doc_text.size(); ++i) {
