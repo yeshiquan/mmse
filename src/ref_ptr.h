@@ -121,9 +121,6 @@ public:
             delete count;
         }
     }
-    void destroy() {
-
-    }
     //引用计数
     int use_count() noexcept {
         return *count;
@@ -136,8 +133,7 @@ public:
 
 template <typename T, typename... Args>
 RefPtr<T> make(Args&&... args) {
-    RefPtr<T> instance(new T(std::forward<Args>(args)...));
-    return instance;
+    return RefPtr<T>(new T(std::forward<Args>(args)...));
 }
 
 } // namespace

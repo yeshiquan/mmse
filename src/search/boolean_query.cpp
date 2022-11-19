@@ -7,7 +7,7 @@ namespace mmse {
 BooleanWeight::BooleanWeight(BooleanQuery* src_boolean_query) {
     _src_boolean_query = src_boolean_query;
     for (auto& clause : src_boolean_query->get_clauses()) {
-        WeightPtr weight = clause.query->create_weight();
+        WeightPtr weight = clause.query->make_weight();
         _weights.emplace_back(weight);
     }
 }

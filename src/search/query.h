@@ -48,7 +48,7 @@ public:
 class Query {
 public:
     virtual ~Query() {}
-    virtual WeightPtr create_weight() = 0;
+    virtual WeightPtr make_weight() = 0;
     virtual void rewrite() {}
 };
  

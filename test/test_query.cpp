@@ -69,7 +69,7 @@ TEST_F(QueryTest, test_basic1) {
     RefPtr<BooleanQuery> query = mmse::make<BooleanQuery>();
     query->add(query1, Occur::MUST);
     query->add(query2, Occur::MUST_NOT);
-    WeightPtr weight = query->create_weight();
+    WeightPtr weight = query->make_weight();
     ScorerPtr scorer = weight->make_scorer();
 
     std::vector<DocId> result;
@@ -92,7 +92,7 @@ TEST_F(QueryTest, test_basic2) {
     RefPtr<BooleanQuery> query = mmse::make<BooleanQuery>();
     query->add(query1, Occur::MUST);
     query->add(query2, Occur::MUST);
-    WeightPtr weight = query->create_weight();
+    WeightPtr weight = query->make_weight();
     ScorerPtr scorer = weight->make_scorer();
 
     std::vector<DocId> result;
@@ -118,7 +118,7 @@ TEST_F(QueryTest, test_basic3) {
     query->add(query2, Occur::SHOULD);
     query->add(query3, Occur::SHOULD);
     query->set_min_should_match(1);
-    WeightPtr weight = query->create_weight();
+    WeightPtr weight = query->make_weight();
     ScorerPtr scorer = weight->make_scorer();
 
     std::vector<DocId> result;
@@ -144,7 +144,7 @@ TEST_F(QueryTest, test_basic4) {
     query->add(query2, Occur::SHOULD);
     query->add(query3, Occur::SHOULD);
     query->set_min_should_match(0);
-    WeightPtr weight = query->create_weight();
+    WeightPtr weight = query->make_weight();
     ScorerPtr scorer = weight->make_scorer();
 
     std::vector<DocId> result;
@@ -164,7 +164,7 @@ TEST_F(QueryTest, test_boolean_query_case0) {
     QueryPtr query1 = mmse::make<TermQuery>(Term("content", "a"));
     RefPtr<BooleanQuery> query = mmse::make<BooleanQuery>();
     query->add(query1, Occur::MUST);
-    WeightPtr weight = query->create_weight();
+    WeightPtr weight = query->make_weight();
     ScorerPtr scorer = weight->make_scorer();
 
     for (auto& line : scorer->explain()) {
@@ -176,7 +176,7 @@ TEST_F(QueryTest, test_boolean_query_case01) {
     QueryPtr query1 = mmse::make<TermQuery>(Term("content", "a"));
     RefPtr<BooleanQuery> query = mmse::make<BooleanQuery>();
     query->add(query1, Occur::MUST_NOT);
-    WeightPtr weight = query->create_weight();
+    WeightPtr weight = query->make_weight();
     ScorerPtr scorer = weight->make_scorer();
 
     for (auto& line : scorer->explain()) {
@@ -197,7 +197,7 @@ TEST_F(QueryTest, test_boolean_query_case1) {
     query->add(query4, Occur::SHOULD);
     query->add(query5, Occur::SHOULD);
     query->set_min_should_match(3);
-    WeightPtr weight = query->create_weight();
+    WeightPtr weight = query->make_weight();
     ScorerPtr scorer = weight->make_scorer();
 
     for (auto& line : scorer->explain()) {
@@ -218,7 +218,7 @@ TEST_F(QueryTest, test_boolean_query_case2) {
     query->add(query4, Occur::SHOULD);
     query->add(query5, Occur::SHOULD);
     query->set_min_should_match(2);
-    WeightPtr weight = query->create_weight();
+    WeightPtr weight = query->make_weight();
     ScorerPtr scorer = weight->make_scorer();
 
     for (auto& line : scorer->explain()) {
@@ -239,7 +239,7 @@ TEST_F(QueryTest, test_boolean_query_case3) {
     query->add(query4, Occur::SHOULD);
     query->add(query5, Occur::SHOULD);
     query->set_min_should_match(0);
-    WeightPtr weight = query->create_weight();
+    WeightPtr weight = query->make_weight();
     ScorerPtr scorer = weight->make_scorer();
 
     for (auto& line : scorer->explain()) {
@@ -260,7 +260,7 @@ TEST_F(QueryTest, test_boolean_query_case4) {
     query->add(query4, Occur::MUST_NOT);
     query->add(query5, Occur::MUST_NOT);
     query->set_min_should_match(2);
-    WeightPtr weight = query->create_weight();
+    WeightPtr weight = query->make_weight();
     ScorerPtr scorer = weight->make_scorer();
 
     for (auto& line : scorer->explain()) {
@@ -281,7 +281,7 @@ TEST_F(QueryTest, test_boolean_query_case5) {
     query->add(query4, Occur::MUST_NOT);
     query->add(query5, Occur::MUST_NOT);
     query->set_min_should_match(2);
-    WeightPtr weight = query->create_weight();
+    WeightPtr weight = query->make_weight();
     ScorerPtr scorer = weight->make_scorer();
 
     for (auto& line : scorer->explain()) {
@@ -302,7 +302,7 @@ TEST_F(QueryTest, test_boolean_query_case6) {
     query->add(query4, Occur::MUST_NOT);
     query->add(query5, Occur::MUST_NOT);
     query->set_min_should_match(3);
-    WeightPtr weight = query->create_weight();
+    WeightPtr weight = query->make_weight();
     ScorerPtr scorer = weight->make_scorer();
 
     for (auto& line : scorer->explain()) {
@@ -323,7 +323,7 @@ TEST_F(QueryTest, test_boolean_query_case61) {
     query->add(query4, Occur::MUST_NOT);
     query->add(query5, Occur::MUST_NOT);
     query->set_min_should_match(1);
-    WeightPtr weight = query->create_weight();
+    WeightPtr weight = query->make_weight();
     ScorerPtr scorer = weight->make_scorer();
 
     for (auto& line : scorer->explain()) {
@@ -344,7 +344,7 @@ TEST_F(QueryTest, test_boolean_query_case7) {
     query->add(query4, Occur::SHOULD);
     query->add(query5, Occur::SHOULD);
     query->set_min_should_match(3);
-    WeightPtr weight = query->create_weight();
+    WeightPtr weight = query->make_weight();
     ScorerPtr scorer = weight->make_scorer();
 
     for (auto& line : scorer->explain()) {
@@ -365,7 +365,7 @@ TEST_F(QueryTest, test_boolean_query_case8) {
     query->add(query4, Occur::SHOULD);
     query->add(query5, Occur::SHOULD);
     query->set_min_should_match(2);
-    WeightPtr weight = query->create_weight();
+    WeightPtr weight = query->make_weight();
     ScorerPtr scorer = weight->make_scorer();
 
     for (auto& line : scorer->explain()) {
@@ -392,7 +392,7 @@ TEST_F(QueryTest, test_boolean_query_case9) {
     sub_query->add(query6, Occur::SHOULD);    
     query->add(sub_query, Occur::MUST);
 
-    WeightPtr weight = query->create_weight();
+    WeightPtr weight = query->make_weight();
     ScorerPtr scorer = weight->make_scorer();
 
     for (auto& line : scorer->explain()) {

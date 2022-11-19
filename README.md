@@ -42,7 +42,7 @@ auto query2 = mmse::make<TermQuery>(Term("content", "c"));
 auto query = mmse::make<BooleanQuery>();
 query->add(query1, Occur::MUST);
 query->add(query2, Occur::MUST_NOT);
-WeightPtr weight = query->create_weight();
+WeightPtr weight = query->make_weight();
 ScorerPtr scorer = weight->make_scorer();
 
 std::vector<DocId> result;
