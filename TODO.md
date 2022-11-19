@@ -15,10 +15,12 @@ lib库只提供基础的函数级别的api，不提供服务的包装。
         * 实现ItemScorer和ConjunctionScorer，可以求多条拉链的交集，参考test_query.cpp done
         * 实现DisjunctionScorer, 求多条拉链的并集 done
         * 实现ReqExclScorer，实现2条拉链的差集(A-B) done
-        * 修改BooleanWeight::make_scorer的业务逻辑，使得能处理所有查询条件的组合，
+        * 修改BooleanWeight::make_scorer的业务逻辑，使得能处理所有查询条件的组合， done
           包括单个must、must_not、should
           包括must+must_not, must+should, must_not+should等等
-    * 修复内存泄露
+        * 实现Scorer树的explain功能，可视化查看生成的scorer树 done
+        * 交集、并集、差集的性能优化, 比如交集先用最短的拉链
+    * 目前为了方便，无脑new各种对象，没有考虑对象的生命周期和内存回收。
     * 实现相关性打分, 包括各种查询条件组合下的打分，BM25等。
     * 实现范围查询，考虑kd-tree
     * 实现拉链截断、限制耗时等操作
