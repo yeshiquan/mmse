@@ -39,13 +39,13 @@ void build_index() {
 
 #### 检索
 ```C++
-Query* query1 = new TermQuery(Term("content", "f"));
-Query* query2 = new TermQuery(Term("content", "c"));
-BooleanQuery* query = new BooleanQuery;
+auto query1 = make_object<TermQuery>(Term("content", "f"));
+auto query2 = make_object<TermQuery>(Term("content", "c"));
+auto query = make_object<BooleanQuery>();
 query->add(query1, Occur::MUST);
 query->add(query2, Occur::MUST_NOT);
-Weight* weight = query->create_weight();
-Scorer* scorer = weight->make_scorer();
+WeightPtr weight = query->create_weight();
+ScorerPtr scorer = weight->make_scorer();
 
 std::vector<DocId> result;
 DocId doc = scorer->next_doc();
