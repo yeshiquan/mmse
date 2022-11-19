@@ -3,6 +3,11 @@
 #include "collector.h"
 #include "ref_ptr.h"
 
+// Query, Weight, Scorer是3棵树
+// 这3种对象是一次查询请求处理过程中构建的
+// 所有对象都用RefPtr包装，不是线程安全的
+// 确保这些对象不要用在多线程环境下。
+
 namespace mmse {
 
 class Query;
@@ -18,6 +23,9 @@ public:
 };
 using WeightPtr = RefPtr<Weight>;
 
+// Scorer同时承担2大功能
+// 1) Scorer本身是一个迭代器，通过next_doc()可以遍历所有文档
+// 2) Scorer也承担了给文档打分的功能
 class Scorer {
 public:
     virtual ~Scorer() {}
@@ -36,6 +44,7 @@ public:
     virtual DocId next_doc() = 0;
 };
 
+// 用户通过构建Query查询树来检索文档
 class Query {
 public:
     virtual ~Query() {}

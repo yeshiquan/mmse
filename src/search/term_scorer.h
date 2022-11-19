@@ -22,7 +22,7 @@ public:
     DocId next_doc() override; 
     DocId skip_to(DocId target) override;
     DocId doc() const override;
-    std::vector<std::string> explain() const override { return {"TermScorer(" + _term.field_name + "=" + _term.term_value + ")"}; }
+    std::vector<std::string> explain() const override;
 private:
     void _init(const PostingList*);
 private:

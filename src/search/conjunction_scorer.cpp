@@ -20,7 +20,7 @@ ConjunctionScorer::ConjunctionScorer(std::vector<ScorerPtr>& scorers)
         }
     }
 
-    std::sort(_scorers.begin(), _scorers.end(), [](ScorerPtr a, ScorerPtr b) -> bool { 
+    std::sort(_scorers.begin(), _scorers.end(), [](ScorerPtr& a, ScorerPtr& b) -> bool { 
         return a->doc() < b->doc();
     });
 

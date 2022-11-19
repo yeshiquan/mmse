@@ -39,4 +39,9 @@ DocId TermScorer::doc() const {
     return (node ? node->data() : NO_MORE_DOCS);
 }
 
+std::vector<std::string> TermScorer::explain() const { 
+    return {"TermScorer(" + _term.field_name + "=" + _term.term_value + ")"}; 
+}
+
+
 } // namespace
