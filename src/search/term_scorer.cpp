@@ -3,7 +3,15 @@
 namespace unise {
 
 TermScorer::TermScorer(const PostingList* list) {
-    std::cout << "TermScorer() list:" << list << std::endl;
+    _init(list);
+}
+
+TermScorer::TermScorer(const Term& term, const PostingList* list)
+            : _term(term) {
+    _init(list);
+}
+
+void TermScorer::_init(const PostingList* list) {
     if (list) {
         auto& skiplist = list->get_skip_list();
         _doc_iter = skiplist.get_simple_iterator();

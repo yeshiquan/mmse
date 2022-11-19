@@ -29,6 +29,7 @@ public:
     DocId next_doc() override; 
     DocId skip_to(DocId target) override;
     DocId doc() const override;
+    std::vector<std::string> explain() const override;
 private:
     std::vector<Scorer*> _scorers;
     uint32_t _minimum_matchers{0}; // 至少匹配多少个term

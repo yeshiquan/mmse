@@ -57,4 +57,15 @@ DocId DisjunctionScorer::doc() const {
     return _current_doc;
 }
 
+std::vector<std::string> DisjunctionScorer::explain() const {
+    std::vector<std::string> outputs;
+    outputs.emplace_back("DisjunctionScorer(min_match=" + std::to_string(_minimum_matchers) + ") -> ");
+    for (auto scorer : _scorers) {
+        for (auto& line : scorer->explain()) {
+            outputs.emplace_back("  " + line);
+        }
+    }
+    return outputs;
+}
+
 } // namespace

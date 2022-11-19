@@ -76,4 +76,16 @@ DocId ConjunctionScorer::doc() const {
     return _last_doc;
 }
 
+std::vector<std::string> ConjunctionScorer::explain() const {
+    std::vector<std::string> outputs;
+    outputs.emplace_back("ConjunctionScorer -> ");
+    for (auto scorer : _scorers) {
+        for (auto& line : scorer->explain()) {
+            outputs.emplace_back("  " + line);
+        }
+    }
+    return outputs;
+}
+
+
 } // namespace

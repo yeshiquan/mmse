@@ -21,6 +21,7 @@ public:
     DocId next_doc() override; 
     DocId skip_to(DocId target) override;
     DocId doc() const override;
+    std::vector<std::string> explain() const override;
 private:
     DocId _align_header();
 private:

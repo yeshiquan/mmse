@@ -18,7 +18,10 @@ lib库只提供基础的函数级别的api，不提供服务的包装。
         * 修改BooleanWeight::make_scorer的业务逻辑，使得能处理所有查询条件的组合，
           包括单个must、must_not、should
           包括must+must_not, must+should, must_not+should等等
-    * 实现范围查询
+    * 修复内存泄露
+    * 实现相关性打分, 包括各种查询条件组合下的打分，BM25等。
+    * 实现范围查询，考虑kd-tree
+    * 实现拉链截断、限制耗时等操作
 
 ### 实现并行建库、实时增删改查
 

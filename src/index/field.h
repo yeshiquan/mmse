@@ -70,12 +70,17 @@ struct Token {
 
 // 这个结构用于查询，查询最基础的粒度是term级别
 struct Term {
+    Term() = default;
     Term(std::string fn, std::string tv) 
             : field_name(fn)
             , term_value(tv) {}
     Term(Term&& other) 
             : field_name(std::move(other.field_name))
             , term_value(std::move(other.term_value))
+            {} 
+    Term(const Term& other) 
+            : field_name(other.field_name)
+            , term_value(other.term_value)
             {} 
     std::string field_name;
     std::string term_value;

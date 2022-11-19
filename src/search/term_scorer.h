@@ -11,6 +11,7 @@ class TermScorer : public Scorer {
 public:
     TermScorer() = default;
     TermScorer(const PostingList*);
+    TermScorer(const Term& term, const PostingList*);
     ~TermScorer();
 
     TermScorer(TermScorer const&) = delete;             // Copy construct
@@ -21,8 +22,12 @@ public:
     DocId next_doc() override; 
     DocId skip_to(DocId target) override;
     DocId doc() const override;
+    std::vector<std::string> explain() const override { return {"TermScorer(" + _term.field_name + "=" + _term.term_value + ")"}; }
+private:
+    void _init(const PostingList*);
 private:
     SkipList<DocId>::simple_iterator _doc_iter;
+    Term _term;
 };
 
 } // namespace

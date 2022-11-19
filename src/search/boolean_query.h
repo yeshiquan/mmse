@@ -22,26 +22,30 @@ class BooleanWeight : public Weight {
 public:
     BooleanWeight(BooleanQuery* src_boolean_query);
     Scorer* make_scorer() override;
+    void set_min_should_match(uint32_t n) { _min_should_match = n; }
 private:
     std::vector<Weight*> _weights;
     BooleanQuery* _src_boolean_query = nullptr;
+    uint32_t _min_should_match{0};
 };
 
 class BooleanQuery : public Query {
 public:
     void add(Query* q, Occur occur) {
-        std::cout << "add trace 1\n";
         _clauses.emplace_back(BooleanClause(q, occur));
-        std::cout << "add trace 2\n";
     }
     Weight* create_weight() override {
-        return new BooleanWeight(this);
+        auto* w = new BooleanWeight(this);
+        w->set_min_should_match(_min_should_match);
+        return w;
     }
     std::vector<BooleanClause>& get_clauses() {
         return _clauses;
     }
+    void set_min_should_match(uint32_t n) { _min_should_match = n; }
 private:
     std::vector<BooleanClause> _clauses;
+    uint32_t _min_should_match{0};
 };
  
 } // unise

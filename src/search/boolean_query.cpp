@@ -35,7 +35,11 @@ Scorer* BooleanWeight::make_scorer() {
             NOTREACHABLE();
         }
     }
-    return new BooleanScorer2(optional_scorers, required_scorers, prohibited_scorers);
+
+    BooleanScorer2* s = new BooleanScorer2(optional_scorers, required_scorers, prohibited_scorers);
+    s->set_min_should_match(_min_should_match);
+    s->build();
+    return s;
 }
 
 } // namespace

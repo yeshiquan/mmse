@@ -54,4 +54,16 @@ DocId ReqExclScorer::doc() const {
     return _current_doc;
 }
 
+std::vector<std::string> ReqExclScorer::explain() const {
+    std::vector<std::string> outputs;
+    outputs.emplace_back("ReqExclScorer ->");
+    for (auto& line : _required_scorer->explain()) {
+        outputs.emplace_back("  " + line);
+    }
+    for (auto& line : _exclude_scorer->explain()) {
+        outputs.emplace_back("  " + line);
+    }    
+    return outputs;
+}
+
 } // namespace
