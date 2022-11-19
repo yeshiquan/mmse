@@ -7,23 +7,23 @@ namespace mmse {
 BooleanWeight::BooleanWeight(BooleanQuery* src_boolean_query) {
     _src_boolean_query = src_boolean_query;
     for (auto& clause : src_boolean_query->get_clauses()) {
-        Weight* weight = clause.query->create_weight();
+        WeightPtr weight = clause.query->create_weight();
         _weights.emplace_back(weight);
     }
 }
 
-Scorer* BooleanWeight::make_scorer() {
+ScorerPtr BooleanWeight::make_scorer() {
     auto& clauses = _src_boolean_query->get_clauses();
-    std::vector<Scorer*> optional_scorers;
-    std::vector<Scorer*> required_scorers;
-    std::vector<Scorer*> prohibited_scorers;
+    std::vector<ScorerPtr> optional_scorers;
+    std::vector<ScorerPtr> required_scorers;
+    std::vector<ScorerPtr> prohibited_scorers;
 
     std::cout << "BooleanWeight::make_scorer() weight.size:" << _weights.size() << std::endl;
 
     DCHECK(clauses.size() == _weights.size());
 
     for (int i = 0; i < _weights.size(); ++i) {
-        Weight* weight = _weights[i];
+        WeightPtr& weight = _weights[i];
         BooleanClause& clause = clauses[i];
         if (clause.occur == Occur::MUST) {
             required_scorers.emplace_back(weight->make_scorer());
@@ -36,7 +36,7 @@ Scorer* BooleanWeight::make_scorer() {
         }
     }
 
-    BooleanScorer2* s = new BooleanScorer2(optional_scorers, required_scorers, prohibited_scorers);
+    RefPtr<BooleanScorer2> s =  make_object<BooleanScorer2>(optional_scorers, required_scorers, prohibited_scorers);
     s->set_min_should_match(_min_should_match);
     s->build();
     return s;

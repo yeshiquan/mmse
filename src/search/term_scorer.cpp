@@ -21,6 +21,7 @@ void TermScorer::_init(const PostingList* list) {
 }
 
 TermScorer::~TermScorer() {
+    std::cout << "~TermScorer()" << std::endl;
 }
 
 DocId TermScorer::next_doc() {

@@ -10,7 +10,7 @@ namespace mmse {
 class ConjunctionScorer : public Scorer {
 public:
     ConjunctionScorer();
-    ConjunctionScorer(std::vector<Scorer*>& scorers);
+    ConjunctionScorer(std::vector<ScorerPtr>& scorers);
     ~ConjunctionScorer();
 
     ConjunctionScorer(ConjunctionScorer const&) = delete;             // Copy construct
@@ -25,7 +25,7 @@ public:
 private:
     DocId _align_header();
 private:
-    std::vector<Scorer*> _scorers;
+    std::vector<ScorerPtr> _scorers;
     DocId _last_doc = -1;
 };
 

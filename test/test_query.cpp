@@ -63,14 +63,14 @@ void build_index() {
 
 TEST_F(QueryTest, test_basic1) {
     build_index();
-
-    Query* query1 = new TermQuery(Term("content", "f"));
-    Query* query2 = new TermQuery(Term("content", "c"));
-    BooleanQuery* query = new BooleanQuery;
+    //RefPtr<Query> query1 = make_object<TermQuery>(Term("content", "f"));
+    QueryPtr query1 = make_object<TermQuery>(Term("content", "f"));
+    QueryPtr query2 = make_object<TermQuery>(Term("content", "c"));
+    RefPtr<BooleanQuery> query = make_object<BooleanQuery>();
     query->add(query1, Occur::MUST);
     query->add(query2, Occur::MUST_NOT);
-    Weight* weight = query->create_weight();
-    Scorer* scorer = weight->make_scorer();
+    WeightPtr weight = query->create_weight();
+    ScorerPtr scorer = weight->make_scorer();
 
     std::vector<DocId> result;
     std::vector<DocId> expect_result{6,7,8};
@@ -87,13 +87,13 @@ TEST_F(QueryTest, test_basic1) {
 TEST_F(QueryTest, test_basic2) {
     build_index();
 
-    Query* query1 = new TermQuery(Term("content", "a"));
-    Query* query2 = new TermQuery(Term("content", "g"));
-    BooleanQuery* query = new BooleanQuery;
+    QueryPtr query1 = make_object<TermQuery>(Term("content", "a"));
+    QueryPtr query2 = make_object<TermQuery>(Term("content", "g"));
+    RefPtr<BooleanQuery> query = make_object<BooleanQuery>();
     query->add(query1, Occur::MUST);
     query->add(query2, Occur::MUST);
-    Weight* weight = query->create_weight();
-    Scorer* scorer = weight->make_scorer();
+    WeightPtr weight = query->create_weight();
+    ScorerPtr scorer = weight->make_scorer();
 
     std::vector<DocId> result;
     std::vector<DocId> expect_result{0, 1, 2};
@@ -110,16 +110,16 @@ TEST_F(QueryTest, test_basic2) {
 TEST_F(QueryTest, test_basic3) {
     build_index();
 
-    Query* query1 = new TermQuery(Term("content", "z"));
-    Query* query2 = new TermQuery(Term("content", "e"));
-    Query* query3 = new TermQuery(Term("content", "c"));
-    BooleanQuery* query = new BooleanQuery;
+    QueryPtr query1 = make_object<TermQuery>(Term("content", "z"));
+    QueryPtr query2 = make_object<TermQuery>(Term("content", "e"));
+    QueryPtr query3 = make_object<TermQuery>(Term("content", "c"));
+    RefPtr<BooleanQuery> query = make_object<BooleanQuery>();
     query->add(query1, Occur::MUST);
     query->add(query2, Occur::SHOULD);
     query->add(query3, Occur::SHOULD);
     query->set_min_should_match(1);
-    Weight* weight = query->create_weight();
-    Scorer* scorer = weight->make_scorer();
+    WeightPtr weight = query->create_weight();
+    ScorerPtr scorer = weight->make_scorer();
 
     std::vector<DocId> result;
     std::vector<DocId> expect_result{4, 5};
@@ -136,16 +136,16 @@ TEST_F(QueryTest, test_basic3) {
 TEST_F(QueryTest, test_basic4) {
     build_index();
 
-    Query* query1 = new TermQuery(Term("content", "z"));
-    Query* query2 = new TermQuery(Term("content", "e"));
-    Query* query3 = new TermQuery(Term("content", "c"));
-    BooleanQuery* query = new BooleanQuery;
+    QueryPtr query1 = make_object<TermQuery>(Term("content", "z"));
+    QueryPtr query2 = make_object<TermQuery>(Term("content", "e"));
+    QueryPtr query3 = make_object<TermQuery>(Term("content", "c"));
+    RefPtr<BooleanQuery> query = make_object<BooleanQuery>();
     query->add(query1, Occur::MUST);
     query->add(query2, Occur::SHOULD);
     query->add(query3, Occur::SHOULD);
     query->set_min_should_match(0);
-    Weight* weight = query->create_weight();
-    Scorer* scorer = weight->make_scorer();
+    WeightPtr weight = query->create_weight();
+    ScorerPtr scorer = weight->make_scorer();
 
     std::vector<DocId> result;
     std::vector<DocId> expect_result{4, 5, 6};
@@ -161,11 +161,11 @@ TEST_F(QueryTest, test_basic4) {
 
 
 TEST_F(QueryTest, test_boolean_query_case0) {
-    Query* query1 = new TermQuery(Term("content", "a"));
-    BooleanQuery* query = new BooleanQuery;
+    QueryPtr query1 = make_object<TermQuery>(Term("content", "a"));
+    RefPtr<BooleanQuery> query = make_object<BooleanQuery>();
     query->add(query1, Occur::MUST);
-    Weight* weight = query->create_weight();
-    Scorer* scorer = weight->make_scorer();
+    WeightPtr weight = query->create_weight();
+    ScorerPtr scorer = weight->make_scorer();
 
     for (auto& line : scorer->explain()) {
         std::cout << line << std::endl;
@@ -173,11 +173,11 @@ TEST_F(QueryTest, test_boolean_query_case0) {
 }
 
 TEST_F(QueryTest, test_boolean_query_case01) {
-    Query* query1 = new TermQuery(Term("content", "a"));
-    BooleanQuery* query = new BooleanQuery;
+    QueryPtr query1 = make_object<TermQuery>(Term("content", "a"));
+    RefPtr<BooleanQuery> query = make_object<BooleanQuery>();
     query->add(query1, Occur::MUST_NOT);
-    Weight* weight = query->create_weight();
-    Scorer* scorer = weight->make_scorer();
+    WeightPtr weight = query->create_weight();
+    ScorerPtr scorer = weight->make_scorer();
 
     for (auto& line : scorer->explain()) {
         std::cout << line << std::endl;
@@ -185,20 +185,20 @@ TEST_F(QueryTest, test_boolean_query_case01) {
 }
 
 TEST_F(QueryTest, test_boolean_query_case1) {
-    Query* query1 = new TermQuery(Term("content", "a"));
-    Query* query2 = new TermQuery(Term("content", "g"));
-    Query* query3 = new TermQuery(Term("content", "f"));
-    Query* query4 = new TermQuery(Term("content", "k"));
-    Query* query5 = new TermQuery(Term("content", "b"));
-    BooleanQuery* query = new BooleanQuery;
+    QueryPtr query1 = make_object<TermQuery>(Term("content", "a"));
+    QueryPtr query2 = make_object<TermQuery>(Term("content", "g"));
+    QueryPtr query3 = make_object<TermQuery>(Term("content", "f"));
+    QueryPtr query4 = make_object<TermQuery>(Term("content", "k"));
+    QueryPtr query5 = make_object<TermQuery>(Term("content", "b"));
+    RefPtr<BooleanQuery> query = make_object<BooleanQuery>();
     query->add(query1, Occur::MUST);
     query->add(query2, Occur::MUST);
     query->add(query3, Occur::SHOULD);
     query->add(query4, Occur::SHOULD);
     query->add(query5, Occur::SHOULD);
     query->set_min_should_match(3);
-    Weight* weight = query->create_weight();
-    Scorer* scorer = weight->make_scorer();
+    WeightPtr weight = query->create_weight();
+    ScorerPtr scorer = weight->make_scorer();
 
     for (auto& line : scorer->explain()) {
         std::cout << line << std::endl;
@@ -206,20 +206,20 @@ TEST_F(QueryTest, test_boolean_query_case1) {
 }
 
 TEST_F(QueryTest, test_boolean_query_case2) {
-    Query* query1 = new TermQuery(Term("content", "a"));
-    Query* query2 = new TermQuery(Term("content", "g"));
-    Query* query3 = new TermQuery(Term("content", "f"));
-    Query* query4 = new TermQuery(Term("content", "k"));
-    Query* query5 = new TermQuery(Term("content", "b"));
-    BooleanQuery* query = new BooleanQuery;
+    QueryPtr query1 = make_object<TermQuery>(Term("content", "a"));
+    QueryPtr query2 = make_object<TermQuery>(Term("content", "g"));
+    QueryPtr query3 = make_object<TermQuery>(Term("content", "f"));
+    QueryPtr query4 = make_object<TermQuery>(Term("content", "k"));
+    QueryPtr query5 = make_object<TermQuery>(Term("content", "b"));
+    RefPtr<BooleanQuery> query = make_object<BooleanQuery>();
     query->add(query1, Occur::MUST);
     query->add(query2, Occur::MUST);
     query->add(query3, Occur::SHOULD);
     query->add(query4, Occur::SHOULD);
     query->add(query5, Occur::SHOULD);
     query->set_min_should_match(2);
-    Weight* weight = query->create_weight();
-    Scorer* scorer = weight->make_scorer();
+    WeightPtr weight = query->create_weight();
+    ScorerPtr scorer = weight->make_scorer();
 
     for (auto& line : scorer->explain()) {
         std::cout << line << std::endl;
@@ -227,20 +227,20 @@ TEST_F(QueryTest, test_boolean_query_case2) {
 }
 
 TEST_F(QueryTest, test_boolean_query_case3) {
-    Query* query1 = new TermQuery(Term("content", "a"));
-    Query* query2 = new TermQuery(Term("content", "g"));
-    Query* query3 = new TermQuery(Term("content", "f"));
-    Query* query4 = new TermQuery(Term("content", "k"));
-    Query* query5 = new TermQuery(Term("content", "b"));
-    BooleanQuery* query = new BooleanQuery;
+    QueryPtr query1 = make_object<TermQuery>(Term("content", "a"));
+    QueryPtr query2 = make_object<TermQuery>(Term("content", "g"));
+    QueryPtr query3 = make_object<TermQuery>(Term("content", "f"));
+    QueryPtr query4 = make_object<TermQuery>(Term("content", "k"));
+    QueryPtr query5 = make_object<TermQuery>(Term("content", "b"));
+    RefPtr<BooleanQuery> query = make_object<BooleanQuery>();
     query->add(query1, Occur::MUST);
     query->add(query2, Occur::MUST);
     query->add(query3, Occur::SHOULD);
     query->add(query4, Occur::SHOULD);
     query->add(query5, Occur::SHOULD);
     query->set_min_should_match(0);
-    Weight* weight = query->create_weight();
-    Scorer* scorer = weight->make_scorer();
+    WeightPtr weight = query->create_weight();
+    ScorerPtr scorer = weight->make_scorer();
 
     for (auto& line : scorer->explain()) {
         std::cout << line << std::endl;
@@ -248,20 +248,20 @@ TEST_F(QueryTest, test_boolean_query_case3) {
 }
 
 TEST_F(QueryTest, test_boolean_query_case4) {
-    Query* query1 = new TermQuery(Term("content", "a"));
-    Query* query2 = new TermQuery(Term("content", "g"));
-    Query* query3 = new TermQuery(Term("content", "f"));
-    Query* query4 = new TermQuery(Term("content", "k"));
-    Query* query5 = new TermQuery(Term("content", "b"));
-    BooleanQuery* query = new BooleanQuery;
+    QueryPtr query1 = make_object<TermQuery>(Term("content", "a"));
+    QueryPtr query2 = make_object<TermQuery>(Term("content", "g"));
+    QueryPtr query3 = make_object<TermQuery>(Term("content", "f"));
+    QueryPtr query4 = make_object<TermQuery>(Term("content", "k"));
+    QueryPtr query5 = make_object<TermQuery>(Term("content", "b"));
+    RefPtr<BooleanQuery> query = make_object<BooleanQuery>();
     query->add(query1, Occur::MUST);
     query->add(query2, Occur::MUST);
     query->add(query3, Occur::MUST_NOT);
     query->add(query4, Occur::MUST_NOT);
     query->add(query5, Occur::MUST_NOT);
     query->set_min_should_match(2);
-    Weight* weight = query->create_weight();
-    Scorer* scorer = weight->make_scorer();
+    WeightPtr weight = query->create_weight();
+    ScorerPtr scorer = weight->make_scorer();
 
     for (auto& line : scorer->explain()) {
         std::cout << line << std::endl;
@@ -269,20 +269,20 @@ TEST_F(QueryTest, test_boolean_query_case4) {
 }
 
 TEST_F(QueryTest, test_boolean_query_case5) {
-    Query* query1 = new TermQuery(Term("content", "a"));
-    Query* query2 = new TermQuery(Term("content", "g"));
-    Query* query3 = new TermQuery(Term("content", "f"));
-    Query* query4 = new TermQuery(Term("content", "k"));
-    Query* query5 = new TermQuery(Term("content", "b"));
-    BooleanQuery* query = new BooleanQuery;
+    QueryPtr query1 = make_object<TermQuery>(Term("content", "a"));
+    QueryPtr query2 = make_object<TermQuery>(Term("content", "g"));
+    QueryPtr query3 = make_object<TermQuery>(Term("content", "f"));
+    QueryPtr query4 = make_object<TermQuery>(Term("content", "k"));
+    QueryPtr query5 = make_object<TermQuery>(Term("content", "b"));
+    RefPtr<BooleanQuery> query = make_object<BooleanQuery>();
     query->add(query1, Occur::SHOULD);
     query->add(query2, Occur::SHOULD);
     query->add(query3, Occur::MUST_NOT);
     query->add(query4, Occur::MUST_NOT);
     query->add(query5, Occur::MUST_NOT);
     query->set_min_should_match(2);
-    Weight* weight = query->create_weight();
-    Scorer* scorer = weight->make_scorer();
+    WeightPtr weight = query->create_weight();
+    ScorerPtr scorer = weight->make_scorer();
 
     for (auto& line : scorer->explain()) {
         std::cout << line << std::endl;
@@ -290,20 +290,20 @@ TEST_F(QueryTest, test_boolean_query_case5) {
 }
 
 TEST_F(QueryTest, test_boolean_query_case6) {
-    Query* query1 = new TermQuery(Term("content", "a"));
-    Query* query2 = new TermQuery(Term("content", "g"));
-    Query* query3 = new TermQuery(Term("content", "f"));
-    Query* query4 = new TermQuery(Term("content", "k"));
-    Query* query5 = new TermQuery(Term("content", "b"));
-    BooleanQuery* query = new BooleanQuery;
+    QueryPtr query1 = make_object<TermQuery>(Term("content", "a"));
+    QueryPtr query2 = make_object<TermQuery>(Term("content", "g"));
+    QueryPtr query3 = make_object<TermQuery>(Term("content", "f"));
+    QueryPtr query4 = make_object<TermQuery>(Term("content", "k"));
+    QueryPtr query5 = make_object<TermQuery>(Term("content", "b"));
+    RefPtr<BooleanQuery> query = make_object<BooleanQuery>();
     query->add(query1, Occur::SHOULD);
     query->add(query2, Occur::SHOULD);
     query->add(query3, Occur::MUST_NOT);
     query->add(query4, Occur::MUST_NOT);
     query->add(query5, Occur::MUST_NOT);
     query->set_min_should_match(3);
-    Weight* weight = query->create_weight();
-    Scorer* scorer = weight->make_scorer();
+    WeightPtr weight = query->create_weight();
+    ScorerPtr scorer = weight->make_scorer();
 
     for (auto& line : scorer->explain()) {
         std::cout << line << std::endl;
@@ -311,20 +311,20 @@ TEST_F(QueryTest, test_boolean_query_case6) {
 }
 
 TEST_F(QueryTest, test_boolean_query_case61) {
-    Query* query1 = new TermQuery(Term("content", "a"));
-    Query* query2 = new TermQuery(Term("content", "g"));
-    Query* query3 = new TermQuery(Term("content", "f"));
-    Query* query4 = new TermQuery(Term("content", "k"));
-    Query* query5 = new TermQuery(Term("content", "b"));
-    BooleanQuery* query = new BooleanQuery;
+    QueryPtr query1 = make_object<TermQuery>(Term("content", "a"));
+    QueryPtr query2 = make_object<TermQuery>(Term("content", "g"));
+    QueryPtr query3 = make_object<TermQuery>(Term("content", "f"));
+    QueryPtr query4 = make_object<TermQuery>(Term("content", "k"));
+    QueryPtr query5 = make_object<TermQuery>(Term("content", "b"));
+    RefPtr<BooleanQuery> query = make_object<BooleanQuery>();
     query->add(query1, Occur::SHOULD);
     query->add(query2, Occur::SHOULD);
     query->add(query3, Occur::MUST_NOT);
     query->add(query4, Occur::MUST_NOT);
     query->add(query5, Occur::MUST_NOT);
     query->set_min_should_match(1);
-    Weight* weight = query->create_weight();
-    Scorer* scorer = weight->make_scorer();
+    WeightPtr weight = query->create_weight();
+    ScorerPtr scorer = weight->make_scorer();
 
     for (auto& line : scorer->explain()) {
         std::cout << line << std::endl;
@@ -332,20 +332,20 @@ TEST_F(QueryTest, test_boolean_query_case61) {
 }
 
 TEST_F(QueryTest, test_boolean_query_case7) {
-    Query* query1 = new TermQuery(Term("content", "a"));
-    Query* query2 = new TermQuery(Term("content", "g"));
-    Query* query3 = new TermQuery(Term("content", "f"));
-    Query* query4 = new TermQuery(Term("content", "k"));
-    Query* query5 = new TermQuery(Term("content", "b"));
-    BooleanQuery* query = new BooleanQuery;
+    QueryPtr query1 = make_object<TermQuery>(Term("content", "a"));
+    QueryPtr query2 = make_object<TermQuery>(Term("content", "g"));
+    QueryPtr query3 = make_object<TermQuery>(Term("content", "f"));
+    QueryPtr query4 = make_object<TermQuery>(Term("content", "k"));
+    QueryPtr query5 = make_object<TermQuery>(Term("content", "b"));
+    RefPtr<BooleanQuery> query = make_object<BooleanQuery>();
     query->add(query1, Occur::MUST);
     query->add(query2, Occur::MUST_NOT);
     query->add(query3, Occur::SHOULD);
     query->add(query4, Occur::SHOULD);
     query->add(query5, Occur::SHOULD);
     query->set_min_should_match(3);
-    Weight* weight = query->create_weight();
-    Scorer* scorer = weight->make_scorer();
+    WeightPtr weight = query->create_weight();
+    ScorerPtr scorer = weight->make_scorer();
 
     for (auto& line : scorer->explain()) {
         std::cout << line << std::endl;
@@ -353,20 +353,20 @@ TEST_F(QueryTest, test_boolean_query_case7) {
 }
 
 TEST_F(QueryTest, test_boolean_query_case8) {
-    Query* query1 = new TermQuery(Term("content", "a"));
-    Query* query2 = new TermQuery(Term("content", "g"));
-    Query* query3 = new TermQuery(Term("content", "f"));
-    Query* query4 = new TermQuery(Term("content", "k"));
-    Query* query5 = new TermQuery(Term("content", "b"));
-    BooleanQuery* query = new BooleanQuery;
+    QueryPtr query1 = make_object<TermQuery>(Term("content", "a"));
+    QueryPtr query2 = make_object<TermQuery>(Term("content", "g"));
+    QueryPtr query3 = make_object<TermQuery>(Term("content", "f"));
+    QueryPtr query4 = make_object<TermQuery>(Term("content", "k"));
+    QueryPtr query5 = make_object<TermQuery>(Term("content", "b"));
+    RefPtr<BooleanQuery> query = make_object<BooleanQuery>();
     query->add(query1, Occur::MUST);
     query->add(query2, Occur::MUST_NOT);
     query->add(query3, Occur::SHOULD);
     query->add(query4, Occur::SHOULD);
     query->add(query5, Occur::SHOULD);
     query->set_min_should_match(2);
-    Weight* weight = query->create_weight();
-    Scorer* scorer = weight->make_scorer();
+    WeightPtr weight = query->create_weight();
+    ScorerPtr scorer = weight->make_scorer();
 
     for (auto& line : scorer->explain()) {
         std::cout << line << std::endl;
@@ -374,26 +374,26 @@ TEST_F(QueryTest, test_boolean_query_case8) {
 }
 
 TEST_F(QueryTest, test_boolean_query_case9) {
-    Query* query1 = new TermQuery(Term("content", "a"));
-    Query* query2 = new TermQuery(Term("content", "g"));
-    Query* query3 = new TermQuery(Term("content", "f"));
-    Query* query4 = new TermQuery(Term("content", "k"));
-    Query* query5 = new TermQuery(Term("content", "b"));
-    Query* query6 = new TermQuery(Term("content", "z"));
-    BooleanQuery* query = new BooleanQuery;
+    QueryPtr query1 = make_object<TermQuery>(Term("content", "a"));
+    QueryPtr query2 = make_object<TermQuery>(Term("content", "g"));
+    QueryPtr query3 = make_object<TermQuery>(Term("content", "f"));
+    QueryPtr query4 = make_object<TermQuery>(Term("content", "k"));
+    QueryPtr query5 = make_object<TermQuery>(Term("content", "b"));
+    QueryPtr query6 = make_object<TermQuery>(Term("content", "z"));
+    RefPtr<BooleanQuery> query = make_object<BooleanQuery>();
     query->add(query1, Occur::MUST);
     query->add(query2, Occur::MUST_NOT);
     query->add(query3, Occur::SHOULD);
     query->set_min_should_match(1);
 
-    BooleanQuery* sub_query = new BooleanQuery;
+    RefPtr<BooleanQuery> sub_query = make_object<BooleanQuery>();
     sub_query->add(query4, Occur::MUST);
     sub_query->add(query5, Occur::MUST_NOT);
     sub_query->add(query6, Occur::SHOULD);    
     query->add(sub_query, Occur::MUST);
 
-    Weight* weight = query->create_weight();
-    Scorer* scorer = weight->make_scorer();
+    WeightPtr weight = query->create_weight();
+    ScorerPtr scorer = weight->make_scorer();
 
     for (auto& line : scorer->explain()) {
         std::cout << line << std::endl;

@@ -5,12 +5,13 @@ namespace mmse {
 ReqOptSumScorer::ReqOptSumScorer() {
 }
 
-ReqOptSumScorer::ReqOptSumScorer(Scorer* req, Scorer* opt)
+ReqOptSumScorer::ReqOptSumScorer(ScorerPtr req, ScorerPtr opt)
         : _required_scorer(req)
         , _optional_scorer(opt) {
 }
 
 ReqOptSumScorer::~ReqOptSumScorer() {
+    std::cout << "~ReqOptSumScorer()" << std::endl;
 }
 
 DocId ReqOptSumScorer::next_doc() {

@@ -9,7 +9,7 @@ namespace mmse {
 class ReqExclScorer : public Scorer {
 public:
     ReqExclScorer();
-    ReqExclScorer(Scorer* req, Scorer* excl);
+    ReqExclScorer(ScorerPtr req, ScorerPtr excl);
     ~ReqExclScorer();
 
     ReqExclScorer(ReqExclScorer const&) = delete;             // Copy construct
@@ -24,8 +24,8 @@ public:
 private:
     DocId _skip_to_nonexclude();
 private:
-    Scorer* _required_scorer{nullptr};
-    Scorer* _exclude_scorer{nullptr};
+    ScorerPtr _required_scorer{nullptr};
+    ScorerPtr _exclude_scorer{nullptr};
     DocId _current_doc = -1;
 };
 

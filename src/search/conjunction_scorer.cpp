@@ -8,18 +8,19 @@ ConjunctionScorer::ConjunctionScorer() {
 }
 
 ConjunctionScorer::~ConjunctionScorer() {
+    std::cout << "~ConjunctionScorer()" << std::endl;
 }
 
-ConjunctionScorer::ConjunctionScorer(std::vector<Scorer*>& scorers) 
+ConjunctionScorer::ConjunctionScorer(std::vector<ScorerPtr>& scorers) 
                 : _scorers(scorers) {
-    for (auto scorer : _scorers) {
+    for (auto& scorer : _scorers) {
         if (scorer->next_doc() == NO_MORE_DOCS) {
             _last_doc = NO_MORE_DOCS;
             return;
         }
     }
 
-    std::sort(_scorers.begin(), _scorers.end(), [](Scorer* a, Scorer* b) -> bool { 
+    std::sort(_scorers.begin(), _scorers.end(), [](ScorerPtr a, ScorerPtr b) -> bool { 
         return a->doc() < b->doc();
     });
 
@@ -54,7 +55,7 @@ DocId ConjunctionScorer::next_doc() {
 DocId ConjunctionScorer::_align_header() {
     DocId max_doc = _scorers.back()->doc();
     int idx = 0;
-    Scorer* scorer = _scorers[idx];
+    ScorerPtr scorer = _scorers[idx];
     while (scorer->doc() < max_doc) {
         max_doc = scorer->skip_to(max_doc);
         idx = (idx + 1) % _scorers.size();
@@ -79,7 +80,7 @@ DocId ConjunctionScorer::doc() const {
 std::vector<std::string> ConjunctionScorer::explain() const {
     std::vector<std::string> outputs;
     outputs.emplace_back("ConjunctionScorer -> ");
-    for (auto scorer : _scorers) {
+    for (auto& scorer : _scorers) {
         for (auto& line : scorer->explain()) {
             outputs.emplace_back("  " + line);
         }

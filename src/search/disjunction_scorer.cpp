@@ -7,7 +7,7 @@ namespace mmse {
 DisjunctionScorer::DisjunctionScorer() {
 }
 
-DisjunctionScorer::DisjunctionScorer(std::vector<Scorer*>& scorers, uint32_t min_match) 
+DisjunctionScorer::DisjunctionScorer(std::vector<ScorerPtr>& scorers, uint32_t min_match) 
                 : _scorers(scorers)
                 , _minimum_matchers(min_match) {
     for (auto scorer : _scorers) {
@@ -17,6 +17,7 @@ DisjunctionScorer::DisjunctionScorer(std::vector<Scorer*>& scorers, uint32_t min
 }
 
 DisjunctionScorer::~DisjunctionScorer() {
+    std::cout << "~DisjunctionScorer()" << std::endl;
 }
 
 DocId DisjunctionScorer::next_doc() {

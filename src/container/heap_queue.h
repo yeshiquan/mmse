@@ -29,6 +29,7 @@ public:
     }
 
     const T& top() const { return _elements[0]; }
+    T& top() { return _elements[0]; }
     bool empty() const { return _elements.empty(); }
     size_t size() const { return _elements.size(); }
 

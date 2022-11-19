@@ -7,7 +7,7 @@ namespace mmse {
 class ReqOptSumScorer : public Scorer {
 public:
     ReqOptSumScorer();
-    ReqOptSumScorer(Scorer* req, Scorer* excl);
+    ReqOptSumScorer(ScorerPtr req, ScorerPtr excl);
     ~ReqOptSumScorer();
 
     ReqOptSumScorer(ReqOptSumScorer const&) = delete;             // Copy construct
@@ -22,8 +22,8 @@ public:
 private:
     DocId _skip_to_nonexclude();
 private:
-    Scorer* _required_scorer{nullptr};
-    Scorer* _optional_scorer{nullptr};
+    ScorerPtr _required_scorer{nullptr};
+    ScorerPtr _optional_scorer{nullptr};
     DocId _current_doc = -1;
 };
 

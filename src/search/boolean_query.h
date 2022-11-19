@@ -10,8 +10,8 @@ enum class Occur {MUST, MUST_NOT, SHOULD};
 class BooleanQuery;
 
 struct BooleanClause {
-    BooleanClause(Query* q, Occur o) : query(q), occur(o) {}
-    Query* query;
+    BooleanClause(QueryPtr q, Occur o) : query(q), occur(o) {}
+    QueryPtr query;
     Occur occur;
 };
 
@@ -21,21 +21,21 @@ class BooleanScorer : public Scorer {
 class BooleanWeight : public Weight {
 public:
     BooleanWeight(BooleanQuery* src_boolean_query);
-    Scorer* make_scorer() override;
+    ScorerPtr make_scorer() override;
     void set_min_should_match(uint32_t n) { _min_should_match = n; }
 private:
-    std::vector<Weight*> _weights;
+    std::vector<WeightPtr> _weights;
     BooleanQuery* _src_boolean_query = nullptr;
     uint32_t _min_should_match{0};
 };
 
 class BooleanQuery : public Query {
 public:
-    void add(Query* q, Occur occur) {
+    void add(QueryPtr q, Occur occur) {
         _clauses.emplace_back(BooleanClause(q, occur));
     }
-    Weight* create_weight() override {
-        auto* w = new BooleanWeight(this);
+    WeightPtr create_weight() override {
+        auto w = make_object<BooleanWeight>(this);
         w->set_min_should_match(_min_should_match);
         return w;
     }

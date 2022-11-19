@@ -46,9 +46,9 @@ protected:
     }; \
     build_list(list1, {1,3,4,5,7,8,9,12,15,18,20,22});  \
     build_list(list2, {2,6,7,8,10,11,12}); \
-    TermScorer t1(&list1); \
-    TermScorer t2(&list2); \
-    ReqExclScorer req_excl_scorer(&t1, &t2);
+    ScorerPtr t1 = make_object<TermScorer>(&list1); \
+    ScorerPtr t2 = make_object<TermScorer>(&list2); \
+    ReqExclScorer req_excl_scorer(t1, t2);
 
 TEST_F(ReqExclScorerTest, test_next_doc) {
     BUILD_REQEXCL_SCORER();

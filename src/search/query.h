@@ -1,18 +1,22 @@
 #pragma once
 
 #include "collector.h"
+#include "ref_ptr.h"
 
 namespace mmse {
 
 class Query;
 class Scorer;
+using ScorerPtr = RefPtr<Scorer>;
+using QueryPtr = RefPtr<Query>;
 
 class Weight {
 public:
     virtual ~Weight() {}
     virtual Query* get_query() { return nullptr; }
-    virtual Scorer* make_scorer() = 0;
+    virtual ScorerPtr make_scorer() = 0;
 };
+using WeightPtr = RefPtr<Weight>;
 
 class Scorer {
 public:
@@ -35,7 +39,7 @@ public:
 class Query {
 public:
     virtual ~Query() {}
-    virtual Weight* create_weight() = 0;
+    virtual WeightPtr create_weight() = 0;
     virtual void rewrite() {}
 };
  

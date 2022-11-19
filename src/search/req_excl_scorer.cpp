@@ -5,13 +5,14 @@ namespace mmse {
 ReqExclScorer::ReqExclScorer() {
 }
 
-ReqExclScorer::ReqExclScorer(Scorer* req, Scorer* excl)
+ReqExclScorer::ReqExclScorer(ScorerPtr req, ScorerPtr excl)
         : _required_scorer(req)
         , _exclude_scorer(excl) {
     _exclude_scorer->next_doc();
 }
 
 ReqExclScorer::~ReqExclScorer() {
+    std::cout << "~ReqExclScorer()" << std::endl;
 }
 
 DocId ReqExclScorer::next_doc() {

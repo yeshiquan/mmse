@@ -10,7 +10,7 @@ namespace mmse {
 // 有序并集
 
 struct ScorerLess {
-    bool operator() (const Scorer* a, const Scorer* b) {
+    bool operator() (const ScorerPtr& a, const ScorerPtr& b) {
         return a->doc() < b->doc();
     }
 };        
@@ -18,7 +18,7 @@ struct ScorerLess {
 class DisjunctionScorer : public Scorer {
 public:
     DisjunctionScorer();
-    DisjunctionScorer(std::vector<Scorer*>&, uint32_t);
+    DisjunctionScorer(std::vector<ScorerPtr>&, uint32_t);
     ~DisjunctionScorer();
 
     DisjunctionScorer(DisjunctionScorer const&) = delete;             // Copy construct
@@ -31,9 +31,9 @@ public:
     DocId doc() const override;
     std::vector<std::string> explain() const override;
 private:
-    std::vector<Scorer*> _scorers;
+    std::vector<ScorerPtr> _scorers;
     uint32_t _minimum_matchers{0}; // 至少匹配多少个term
-    HeapQueue<Scorer*, ScorerLess> _queue; 
+    HeapQueue<ScorerPtr, ScorerLess> _queue; 
     DocId _current_doc = -1;
 };
 
