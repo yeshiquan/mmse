@@ -53,9 +53,9 @@ void build_index() {
 
     for (int i = 0; i < doc_text.size(); ++i) {
         auto doc = std::make_shared<Document>(i);
-        doc->add_field(new TextField(0, doc_text[i], YES));
-        doc->add_field(new NumberField(1, i*2, YES));
-        doc->add_field(new StringField(2, "hello", YES));
+        doc->add_field(new TextField(0, doc_text[i], FieldStoreType::YES));
+        doc->add_field(new NumberField(1, i*2, FieldStoreType::YES));
+        doc->add_field(new StringField(2, "hello", FieldStoreType::YES));
         index_writer.add_document(doc);
     }
     index_writer.build();
