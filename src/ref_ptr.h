@@ -24,13 +24,22 @@ public:
 
 public:
     //构造
-    explicit RefPtr(T* _ptr = nullptr) noexcept : ptr(_ptr) {
+    explicit RefPtr(T* p = nullptr) noexcept : ptr(p) {
         count = new Counter;
         if(ptr != nullptr) {
             *count = 1;
         }
     }
     RefPtr(std::nullptr_t n) noexcept {}
+    void reset(T* p = nullptr) {
+        if (--*count == 0 && ptr) {
+            delete ptr;
+        }
+        ptr = p;
+        if (ptr != nullptr) {
+            *count = 1;
+        }
+    }
     T* get() noexcept { return ptr; }
     const T* get() const noexcept { return ptr; }
     //拷贝构造
@@ -111,6 +120,9 @@ public:
             delete ptr;
             delete count;
         }
+    }
+    void destroy() {
+
     }
     //引用计数
     int use_count() noexcept {

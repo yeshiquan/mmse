@@ -76,5 +76,29 @@ TEST_F(RefPtrTest, test_bool) {
     }
     ASSERT_EQ(stat_cnt, 1);
 
-    RefPtr<std::string> tmp(nullptr);
+    RefPtr<std::string> tmp(nullptr); // 可以通过nullptr来构造
+}
+
+TEST_F(RefPtrTest, test_reset) {
+    static int instance_cnt = 0;
+    struct Foo {
+        Foo(double dv) {
+            v = dv;
+            instance_cnt++;
+        }
+        ~Foo() {
+            instance_cnt--;
+        }
+        double v;
+    };
+    {
+        RefPtr<Foo> ptr1(new Foo(3.14));
+        ASSERT_EQ(ptr1.use_count(), 1);
+        ASSERT_EQ(instance_cnt, 1);
+        ptr1.reset(new Foo(2.14));
+        ASSERT_EQ(ptr1.use_count(), 1);
+        ASSERT_EQ(instance_cnt, 1);
+    }
+    // 所有实例都被自动回收
+    ASSERT_EQ(instance_cnt, 0);    
 }
