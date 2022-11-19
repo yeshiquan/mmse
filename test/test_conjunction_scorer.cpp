@@ -50,9 +50,9 @@ TEST_F(ConjunctionTest, test_basic) {
     build_list(list2, {1,13,22,35,98,99});  
     build_list(list3, {1,3,13,20,35,80,98});  
 
-    ScorerPtr t1 = make_object<TermScorer>(&list1);
-    ScorerPtr t2 = make_object<TermScorer>(&list2);
-    ScorerPtr t3 = make_object<TermScorer>(&list3);
+    ScorerPtr t1 = mmse::make<TermScorer>(&list1);
+    ScorerPtr t2 = mmse::make<TermScorer>(&list2);
+    ScorerPtr t3 = mmse::make<TermScorer>(&list3);
 
     std::vector<ScorerPtr> requred_scorers = {t1, t2, t3};
     ConjunctionScorer conjunction_scorer(requred_scorers);

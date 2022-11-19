@@ -19,7 +19,7 @@ class TermQuery : public Query {
 public:
     TermQuery(Term&& term) : _term(std::move(term)) {};
     WeightPtr create_weight() override {
-        return make_object<TermWeight>(this);
+        return mmse::make<TermWeight>(this);
     }
     Term& get_term() { return _term; }
 private:

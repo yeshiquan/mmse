@@ -60,7 +60,7 @@ TEST_F(RefPtrTest, test_basic) {
 TEST_F(RefPtrTest, test_derived) {
     struct Foo {};
     struct Bar : public Foo {};
-    RefPtr<Foo> ptr = make_object<Bar>();
+    RefPtr<Foo> ptr = mmse::make<Bar>();
 }
 
 TEST_F(RefPtrTest, test_bool) {

@@ -135,7 +135,7 @@ public:
 };
 
 template <typename T, typename... Args>
-RefPtr<T> make_object(Args&&... args) {
+RefPtr<T> make(Args&&... args) {
     RefPtr<T> instance(new T(std::forward<Args>(args)...));
     return instance;
 }

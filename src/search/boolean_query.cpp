@@ -36,7 +36,7 @@ ScorerPtr BooleanWeight::make_scorer() {
         }
     }
 
-    RefPtr<BooleanScorer2> s =  make_object<BooleanScorer2>(optional_scorers, required_scorers, prohibited_scorers);
+    RefPtr<BooleanScorer2> s =  mmse::make<BooleanScorer2>(optional_scorers, required_scorers, prohibited_scorers);
     s->set_min_should_match(_min_should_match);
     s->build();
     return s;

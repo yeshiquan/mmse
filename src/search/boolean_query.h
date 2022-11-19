@@ -35,7 +35,7 @@ public:
         _clauses.emplace_back(BooleanClause(q, occur));
     }
     WeightPtr create_weight() override {
-        auto w = make_object<BooleanWeight>(this);
+        auto w = mmse::make<BooleanWeight>(this);
         w->set_min_should_match(_min_should_match);
         return w;
     }

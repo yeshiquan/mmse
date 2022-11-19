@@ -1,6 +1,6 @@
 # A Memory-based Search Engine(MMSE)
 
-### 暂时处于开发阶段，可以运行单测看效果
+### 编译 & 运行
 
 ```bash
 cmake CmakeLists.txt
@@ -37,9 +37,9 @@ index_writer.build();
 
 #### 检索
 ```C++
-auto query1 = make_object<TermQuery>(Term("content", "f"));
-auto query2 = make_object<TermQuery>(Term("content", "c"));
-auto query = make_object<BooleanQuery>();
+auto query1 = mmse::make<TermQuery>(Term("content", "f"));
+auto query2 = mmse::make<TermQuery>(Term("content", "c"));
+auto query = mmse::make<BooleanQuery>();
 query->add(query1, Occur::MUST);
 query->add(query2, Occur::MUST_NOT);
 WeightPtr weight = query->create_weight();
