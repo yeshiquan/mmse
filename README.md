@@ -10,31 +10,29 @@ make
 
 #### 索引构建
 ```C++
-void build_index() {
-    IndexWriter index_writer;
+IndexWriter index_writer;
 
-    std::vector<std::string> doc_text = {
-        "a b c d e f g a a a b c", // doc_id: 0
-        "a b c d e f g a b c", // doc_id: 1
-        "a b c d e f g a a a", // doc_id: 2
-        "c d e", // doc_id: 3
-        "c d e z", // doc_id: 4
-        "f z c", // doc_id: 5
-        "f g z", // doc_id: 6
-        "f g", // doc_id: 7
-        "f g", // doc_id: 8
-        "g" // doc_id: 9
-    };
+std::vector<std::string> doc_text = {
+    "a b c d e f g a a a b c", // doc_id: 0
+    "a b c d e f g a b c", // doc_id: 1
+    "a b c d e f g a a a", // doc_id: 2
+    "c d e", // doc_id: 3
+    "c d e z", // doc_id: 4
+    "f z c", // doc_id: 5
+    "f g z", // doc_id: 6
+    "f g", // doc_id: 7
+    "f g", // doc_id: 8
+    "g" // doc_id: 9
+};
 
-    for (int i = 0; i < doc_text.size(); ++i) {
-        auto doc = std::make_shared<Document>(i);
-        doc->add_field(new TextField(0, doc_text[i], FieldStoreType::YES));
-        doc->add_field(new NumberField(1, i*2, FieldStoreType::YES));
-        doc->add_field(new StringField(2, "hello", FieldStoreType::YES));
-        index_writer.add_document(doc);
-    }
-    index_writer.build();
+for (int i = 0; i < doc_text.size(); ++i) {
+    auto doc = std::make_shared<Document>(i);
+    doc->add_field(new TextField(0, doc_text[i], FieldStoreType::YES));
+    doc->add_field(new NumberField(1, i*2, FieldStoreType::YES));
+    doc->add_field(new StringField(2, "hello", FieldStoreType::YES));
+    index_writer.add_document(doc);
 }
+index_writer.build();
 ```
 
 #### 检索
