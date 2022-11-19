@@ -3,7 +3,7 @@
 #include "query.h"
 #include <vector>
 
-namespace unise {
+namespace mmse {
 
 // ConjunctionScorer用于求多条拉链的交集
  

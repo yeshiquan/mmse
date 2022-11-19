@@ -2,7 +2,7 @@
 #include "field.h"
 #include <vector>
 
-namespace unise {
+namespace mmse {
  
 class Document {
 public:

@@ -6,7 +6,7 @@
 #include <unordered_map>
 #include <memory.h>
 
-namespace unise {
+namespace mmse {
  
 class SegmentInfo {
 public:

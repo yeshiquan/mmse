@@ -3,7 +3,7 @@
 #include <vector>
 #include <iostream>
 
-namespace unise {
+namespace mmse {
 
 enum class Occur {MUST, MUST_NOT, SHOULD};
 

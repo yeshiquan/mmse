@@ -26,8 +26,8 @@ protected:
 };
 
 TEST_F(SkipListTest, test_basic) {
-    auto* sl = new unise::SkipList<int>(4);
-    //auto* sl = new unise::SkipList<int>(8);
+    auto* sl = new mmse::SkipList<int>(4);
+    //auto* sl = new mmse::SkipList<int>(8);
     std::vector<int> elements = {7, 14, 21, 32, 37, 71, 85, 119};
 
     // for (int i = 1; i <= 100; ++i) {
@@ -70,7 +70,7 @@ TEST_F(SkipListTest, test_basic) {
 TEST_F(SkipListTest, test_simple_iterator) {
     int N = 200;
     int init_height = std::log2(100);
-    auto* sl = new unise::SkipList<int>(init_height);
+    auto* sl = new mmse::SkipList<int>(init_height);
     std::vector<int> elements;
 
     for (int i = 1; i <= N; ++i) {
@@ -100,7 +100,7 @@ TEST_F(SkipListTest, test_simple_iterator) {
 TEST_F(SkipListTest, test_remove) {
     int N = 200;
     int init_height = std::log2(100);
-    auto* sl = new unise::SkipList<int>(init_height);
+    auto* sl = new mmse::SkipList<int>(init_height);
     std::vector<int> elements;
 
     for (int i = 1; i <= N; ++i) {
@@ -133,7 +133,7 @@ TEST_F(SkipListTest, test_remove) {
 TEST_F(SkipListTest, test_grow_height) {
     int N = 425;
     int init_height = 2;
-    auto* sl = new unise::SkipList<int>(init_height);
+    auto* sl = new mmse::SkipList<int>(init_height);
     std::vector<int> elements;
 
     for (int i = 1; i <= N; ++i) {

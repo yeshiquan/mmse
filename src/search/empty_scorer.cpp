@@ -1,6 +1,6 @@
 #include "empty_scorer.h"
 
-namespace unise {
+namespace mmse {
 
 EmptyScorer::EmptyScorer() {
 }

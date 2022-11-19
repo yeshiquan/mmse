@@ -1,6 +1,6 @@
 #include "req_opt_sum_scorer.h"
 
-namespace unise {
+namespace mmse {
 
 ReqOptSumScorer::ReqOptSumScorer() {
 }

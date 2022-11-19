@@ -3,7 +3,7 @@
 #include "query.h"
 #include <vector>
 
-namespace unise {
+namespace mmse {
 
 class BooleanScorer2 : public Scorer {
 public:

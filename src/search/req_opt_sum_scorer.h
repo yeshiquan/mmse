@@ -2,7 +2,7 @@
 
 #include "query.h"
 
-namespace unise {
+namespace mmse {
  
 class ReqOptSumScorer : public Scorer {
 public:

@@ -20,7 +20,7 @@
 #include "index_writer.h"
 #include "engine.h"
 
-using namespace unise;
+using namespace mmse;
 
 
 class QueryTest : public ::testing::Test {

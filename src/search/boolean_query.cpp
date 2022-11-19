@@ -2,7 +2,7 @@
 #include "boolean_scorer2.h"
 #include "check.h"
 
-namespace unise {
+namespace mmse {
 
 BooleanWeight::BooleanWeight(BooleanQuery* src_boolean_query) {
     _src_boolean_query = src_boolean_query;

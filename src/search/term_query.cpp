@@ -2,7 +2,7 @@
 #include "term_scorer.h"
 #include "engine.h"
 
-namespace unise {
+namespace mmse {
 
 Scorer* TermWeight::make_scorer() {
     auto* segment = Engine::instance().get_segment();

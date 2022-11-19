@@ -8,7 +8,7 @@
 
 #include <iostream>
 
-namespace unise {
+namespace mmse {
 
 BooleanScorer2::BooleanScorer2() {
 }

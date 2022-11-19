@@ -3,7 +3,7 @@
 #include "container/skiplist.h"
 #include "field.h"
 
-namespace unise {
+namespace mmse {
 
 class PostingList {
 public:

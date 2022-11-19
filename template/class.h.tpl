@@ -1,6 +1,6 @@
 #pragma once
 
-namespace unise {
+namespace mmse {
  
 class {{Class}} {
 public:

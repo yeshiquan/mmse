@@ -1,6 +1,6 @@
 #include "req_excl_scorer.h"
 
-namespace unise {
+namespace mmse {
 
 ReqExclScorer::ReqExclScorer() {
 }

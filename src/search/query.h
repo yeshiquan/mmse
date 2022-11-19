@@ -2,7 +2,7 @@
 
 #include "collector.h"
 
-namespace unise {
+namespace mmse {
 
 class Query;
 class Scorer;

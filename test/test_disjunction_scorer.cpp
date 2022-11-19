@@ -21,7 +21,7 @@
 #include "search/term_query.h"
 #include "search/term_scorer.h"
 
-using namespace unise;
+using namespace mmse;
 
 
 class DisjunctionScorerTest : public ::testing::Test {

@@ -1,6 +1,6 @@
 #include "segment_info.h"
 
-namespace unise {
+namespace mmse {
 
 SegmentInfo::SegmentInfo() {
 }

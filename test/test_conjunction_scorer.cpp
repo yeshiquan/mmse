@@ -21,7 +21,7 @@
 #include "index/segment_info.h"
 #include "engine.h"
 
-using namespace unise;
+using namespace mmse;
 
 
 class ConjunctionTest : public ::testing::Test {

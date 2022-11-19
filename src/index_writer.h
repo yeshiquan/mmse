@@ -3,7 +3,7 @@
 #include "index/document.h"
 #include <vector>
 
-namespace unise {
+namespace mmse {
  
 class IndexWriter {
 public:

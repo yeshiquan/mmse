@@ -3,7 +3,7 @@
 #include <string>
 #include <vector>
 
-namespace unise {
+namespace mmse {
  
 int split_string(
         const std::string& str,

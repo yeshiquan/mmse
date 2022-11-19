@@ -12,7 +12,7 @@
 #undef private
 #undef protected
 
-using namespace unise;
+using namespace mmse;
 
 
 class HeapQueueTest : public ::testing::Test {

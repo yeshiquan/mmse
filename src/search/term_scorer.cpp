@@ -1,6 +1,6 @@
 #include "term_scorer.h"
 
-namespace unise {
+namespace mmse {
 
 TermScorer::TermScorer(const PostingList* list) {
     _init(list);

@@ -16,7 +16,7 @@ FetchContent_MakeAvailable(googletest)
 
 include_directories(src)
 
-add_definitions(-std=c++17 -O3)
+add_definitions(-std=c++17 -O3 -Werror=return-type)
 
 aux_source_directory("./src" src_list)
 aux_source_directory("./src/search" search_src_list)

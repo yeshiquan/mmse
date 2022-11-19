@@ -10,7 +10,7 @@
 
 #include "skiplist-inl.h"
 
-namespace unise {
+namespace mmse {
 
 template<typename T, 
          typename Comp = std::less<T>,

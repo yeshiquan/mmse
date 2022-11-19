@@ -3,7 +3,7 @@
 #include <vector>
 #include "index/field.h"
 
-namespace unise {
+namespace mmse {
  
 class Collector {
 public:

@@ -2,7 +2,7 @@
 
 #include <iostream>
 
-namespace unise {
+namespace mmse {
 
 ConjunctionScorer::ConjunctionScorer() {
 }

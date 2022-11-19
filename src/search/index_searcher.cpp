@@ -1,6 +1,6 @@
 #include "index_searcher.h"
 
-namespace unise {
+namespace mmse {
 
 IndexSearcher::IndexSearcher() {
 }

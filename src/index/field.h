@@ -3,7 +3,7 @@
 #include <stdint.h>
 #include <string>
 
-namespace unise {
+namespace mmse {
 
 using DocId = uint64_t;
 using TermId = uint64_t;

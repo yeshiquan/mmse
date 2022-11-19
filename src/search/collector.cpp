@@ -1,6 +1,6 @@
 #include "collector.h"
 
-namespace unise {
+namespace mmse {
 
 Collector::Collector() {
 }

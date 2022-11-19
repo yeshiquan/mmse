@@ -2,7 +2,7 @@
 
 #include "query.h"
 
-namespace unise {
+namespace mmse {
  
 // 实现差集, RequiredScorer - ExcludeScorer
 

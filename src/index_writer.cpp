@@ -9,7 +9,7 @@
 #include "engine.h"
 #include "index/segment_info.h"
 
-namespace unise {
+namespace mmse {
 
 IndexWriter::IndexWriter() {
 }

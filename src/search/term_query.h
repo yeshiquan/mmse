@@ -2,7 +2,7 @@
 #include "query.h"
 #include "index/field.h"
 
-namespace unise {
+namespace mmse {
 
 class TermQuery;
 

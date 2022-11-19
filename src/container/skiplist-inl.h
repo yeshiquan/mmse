@@ -10,7 +10,7 @@
 #include <assert.h>
 #include <random>
 
-namespace unise::detail {
+namespace mmse::detail {
 
 template<typename T>
 class SkipListNode {

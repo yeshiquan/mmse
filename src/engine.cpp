@@ -1,6 +1,6 @@
 #include "engine.h"
 
-namespace unise {
+namespace mmse {
 
 Engine::Engine() {
     _segment = new SegmentInfo;

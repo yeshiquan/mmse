@@ -1,6 +1,6 @@
 #include "{{header}}"
 
-namespace unise {
+namespace mmse {
 
 {{Class}}::{{Class}}() {
 }

@@ -3,7 +3,7 @@
 #include "query.h"
 #include "index/posting_list.h"
 
-namespace unise {
+namespace mmse {
 
 // TermScorer是最底层的，直接和倒排拉链打交道
  

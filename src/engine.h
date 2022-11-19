@@ -2,7 +2,7 @@
 
 #include "index/segment_info.h"
 
-namespace unise {
+namespace mmse {
  
 class Engine {
 public:

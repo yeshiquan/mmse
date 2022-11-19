@@ -2,7 +2,7 @@
 
 #include "query.h"
 
-namespace unise {
+namespace mmse {
  
 class EmptyScorer : public Scorer {
 public:

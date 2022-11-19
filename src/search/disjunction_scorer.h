@@ -5,7 +5,7 @@
 #include <vector>
 #include <queue>
 
-namespace unise {
+namespace mmse {
 
 // 有序并集
 

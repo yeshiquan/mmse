@@ -1,6 +1,6 @@
 #include "document.h"
 #include <iostream>
-namespace unise {
+namespace mmse {
 
 Document::Document(DocId id) : doc_id(id) {
 }
