@@ -48,7 +48,6 @@ Weight* weight = query->create_weight();
 Scorer* scorer = weight->make_scorer();
 
 std::vector<DocId> result;
-std::vector<DocId> expect_result{6,7,8};
 DocId doc = scorer->next_doc();
 while (doc != NO_MORE_DOCS) {
     std::cout << "Query a doc -> " << doc << std::endl;
