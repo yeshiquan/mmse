@@ -1,6 +1,6 @@
 # A Memory-based Search Engine(MMSE)
 
-### 暂时处于开发阶段，可以运行单测看效果
+### 编译 & 运行
 
 ```bash
 cmake CmakeLists.txt
