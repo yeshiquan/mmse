@@ -26,6 +26,11 @@ void BooleanScorer2::build() {
     _counting_sum_scorer = _make_counting_sum_scorer();
 }
 
+// should产生的效果和min_should_match关系密切。
+// 1) should的条件数和min_should_match一样，说明每个条件都要满足，这些should的条件就和must的效果一样了可以生成ConjunctionScorer
+// 2) should的条件数大于min_should_match，说明只用满足其中一部分条件，可以生成DisjunctionScorer
+// 3) should的条件数小于min_should_match，这是不可能做到的，在_make_counting_sum_scorer的入口处直接就处理了，返回EmptyScorer
+//    所以_make_should函数不需要考虑这种情况。
 Scorer* BooleanScorer2::_make_should(std::vector<Scorer*>& scorers, uint32_t min_match) {
     DCHECK(scorers.size() >= min_match);
     if (scorers.size() == 1) {
@@ -51,6 +56,7 @@ Scorer* BooleanScorer2::_make_must(std::vector<Scorer*>& scorers) {
 
 Scorer* BooleanScorer2::_make_must_plus_should(std::vector<Scorer*>& must_scorers, std::vector<Scorer*>& should_scorers) {
     if (should_scorers.size() == _min_should_match) {
+        // 因为每个should的条件都要满足，should全部当作must来处理
         must_scorers.insert(must_scorers.begin(), should_scorers.begin(), should_scorers.end());
     } else if (should_scorers.size() > _min_should_match) {
         if (_min_should_match > 0) {
@@ -58,8 +64,8 @@ Scorer* BooleanScorer2::_make_must_plus_should(std::vector<Scorer*>& must_scorer
             must_scorers.emplace_back(scorer1);
         } else {
             // _min_should_match == 0
-            // 对于召回来说，只需要must就行，不需要should，should只用于打分，
-            // 如果文档中包含should的部分，则增加打分, 生成ReqOptSumScorer
+            // 对于这种情况，召回只需要must就行，不需要should，should只用于打分，
+            // 如果文档中包含should的部分，则增加打分, ReqOptSumScorer是专门处理这种情况的
             auto* scorer1 = _make_must(must_scorers);
             auto* scorer2 = _make_should(should_scorers, 1);
             return new ReqOptSumScorer(scorer1, scorer2);
