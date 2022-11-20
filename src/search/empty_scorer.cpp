@@ -6,6 +6,7 @@ EmptyScorer::EmptyScorer() {
 }
 
 EmptyScorer::~EmptyScorer() {
+    std::cout << "~EmptyScorer()" << std::endl;
 }
 
 DocId EmptyScorer::next_doc() {

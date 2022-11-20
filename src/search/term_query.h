@@ -8,7 +8,8 @@ class TermQuery;
 
 class TermWeight : public Weight {
 public:
-    TermWeight(TermQuery* src) : _src_query(src) {}
+    TermWeight(TermQuery* src);
+    ~TermWeight();
     virtual ScorerPtr make_scorer() override;
     TermQuery* term_query() { return _src_query; }
 private:
@@ -18,8 +19,12 @@ private:
 class TermQuery : public Query {
 public:
     TermQuery(Term&& term) : _term(std::move(term)) {};
+    ~TermQuery() {
+        std::cout << "~TermQuery() " << std::endl;
+    }
     WeightPtr make_weight() override {
-        return mmse::make<TermWeight>(this);
+        //return mmse::make<TermWeight>(this);
+        return new TermWeight(this);
     }
     Term& get_term() { return _term; }
 private:

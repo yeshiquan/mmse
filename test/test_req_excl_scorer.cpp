@@ -46,8 +46,8 @@ protected:
     }; \
     build_list(list1, {1,3,4,5,7,8,9,12,15,18,20,22});  \
     build_list(list2, {2,6,7,8,10,11,12}); \
-    ScorerPtr t1 = mmse::make<TermScorer>(&list1); \
-    ScorerPtr t2 = mmse::make<TermScorer>(&list2); \
+    ScorerPtr t1 = new TermScorer(&list1); \
+    ScorerPtr t2 = new TermScorer(&list2); \
     ReqExclScorer req_excl_scorer(t1, t2);
 
 TEST_F(ReqExclScorerTest, test_next_doc) {

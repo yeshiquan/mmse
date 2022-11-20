@@ -8,10 +8,14 @@ ReqOptSumScorer::ReqOptSumScorer() {
 ReqOptSumScorer::ReqOptSumScorer(ScorerPtr req, ScorerPtr opt)
         : _required_scorer(req)
         , _optional_scorer(opt) {
+    _required_scorer->inc_ref();
+    _optional_scorer->inc_ref();
 }
 
 ReqOptSumScorer::~ReqOptSumScorer() {
     std::cout << "~ReqOptSumScorer()" << std::endl;
+    _required_scorer->dec_ref();
+    _optional_scorer->dec_ref();    
 }
 
 DocId ReqOptSumScorer::next_doc() {

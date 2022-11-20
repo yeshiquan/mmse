@@ -11,6 +11,7 @@ DisjunctionScorer::DisjunctionScorer(std::vector<ScorerPtr>& scorers, uint32_t m
                 : _scorers(scorers)
                 , _minimum_matchers(min_match) {
     for (auto scorer : _scorers) {
+        scorer->inc_ref();
         scorer->next_doc();
         _queue.push(scorer);
     }
@@ -18,6 +19,9 @@ DisjunctionScorer::DisjunctionScorer(std::vector<ScorerPtr>& scorers, uint32_t m
 
 DisjunctionScorer::~DisjunctionScorer() {
     std::cout << "~DisjunctionScorer()" << std::endl;
+    for (auto scorer : _scorers) {
+        scorer->dec_ref();
+    }
 }
 
 DocId DisjunctionScorer::next_doc() {

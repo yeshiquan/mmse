@@ -15,16 +15,36 @@ BooleanScorer2::BooleanScorer2() {
 
 BooleanScorer2::~BooleanScorer2() {
     std::cout << "~BooleanScorer2()" << std::endl;
+    for (auto& scorer : _optional_scorers) {
+        scorer->dec_ref();
+    }
+    for (auto& scorer : _required_scorers) {
+        scorer->dec_ref();
+    }
+    for (auto& scorer : _prohibited_scorers) {
+        scorer->dec_ref();
+    }
+    _counting_sum_scorer->dec_ref();
 }
 
 BooleanScorer2::BooleanScorer2(std::vector<ScorerPtr>& optional, std::vector<ScorerPtr>& required, std::vector<ScorerPtr>& prohibited)
     : _optional_scorers(optional)
     , _required_scorers(required)
     , _prohibited_scorers(prohibited) {
+    for (auto& scorer : _optional_scorers) {
+        scorer->inc_ref();
+    }
+    for (auto& scorer : _required_scorers) {
+        scorer->inc_ref();
+    }
+    for (auto& scorer : _prohibited_scorers) {
+        scorer->inc_ref();
+    }        
 }
 
 void BooleanScorer2::build() {
     _counting_sum_scorer = _make_counting_sum_scorer();
+    _counting_sum_scorer->inc_ref();
 }
 
 // should产生的效果和min_should_match关系密切。
@@ -38,9 +58,11 @@ ScorerPtr BooleanScorer2::_make_should(std::vector<ScorerPtr>& scorers, uint32_t
         return scorers[0];
     } else {    
         if (scorers.size() > min_match) {
-            return mmse::make<DisjunctionScorer>(scorers, min_match);
+            // return mmse::make<DisjunctionScorer>(scorers, min_match);
+            return new DisjunctionScorer(scorers, min_match);
         } else {
-            return mmse::make<ConjunctionScorer>(scorers);
+            // return mmse::make<ConjunctionScorer>(scorers);
+            return new ConjunctionScorer(scorers);
         } 
     }
     NOTREACHABLE();
@@ -52,24 +74,29 @@ ScorerPtr BooleanScorer2::_make_must(std::vector<ScorerPtr>& scorers) {
     if (scorers.size() == 1) {
         return scorers[0];
     }
-    return mmse::make<ConjunctionScorer>(scorers);
+    //return mmse::make<ConjunctionScorer>(scorers);
+    return new ConjunctionScorer(scorers);
 }
 
 ScorerPtr BooleanScorer2::_make_must_plus_should(std::vector<ScorerPtr>& must_scorers, std::vector<ScorerPtr>& should_scorers) {
-    if (should_scorers.size() == _min_should_match) {
+    auto should_cnt = should_scorers.size();
+    if (should_cnt == _min_should_match) {
         // 因为每个should的条件都要满足，should全部当作must来处理
         must_scorers.insert(must_scorers.begin(), should_scorers.begin(), should_scorers.end());
-    } else if (should_scorers.size() > _min_should_match) {
+        should_scorers.clear(); // 容易出错的地方：指针拷贝后，要么增加引用计数，要么把原来的指针作废(相当于move)
+    } else if (should_cnt > _min_should_match) {
         if (_min_should_match > 0) {
             auto scorer1 = _make_should(should_scorers, _min_should_match);
             must_scorers.emplace_back(scorer1);
+            scorer1->inc_ref(); // 容易出错的地方：指针拷贝后要增加引用计数
         } else {
             // _min_should_match == 0
             // 对于这种情况，召回只需要must就行，不需要should，should只用于打分，
             // 如果文档中包含should的部分，则增加打分, ReqOptSumScorer是专门处理这种情况的
             auto scorer1 = _make_must(must_scorers);
             auto scorer2 = _make_should(should_scorers, 1);
-            return mmse::make<ReqOptSumScorer>(scorer1, scorer2);
+            //return mmse::make<ReqOptSumScorer>(scorer1, scorer2);
+            return new ReqOptSumScorer(scorer1, scorer2);
         }
     } else {
         NOTREACHABLE();
@@ -81,7 +108,8 @@ ScorerPtr BooleanScorer2::_make_must_plus_should(std::vector<ScorerPtr>& must_sc
 ScorerPtr BooleanScorer2::_make_must_plus_mustnot(std::vector<ScorerPtr>& must_scorers, std::vector<ScorerPtr>& not_scorers) {
     auto must_scorer = _make_must(must_scorers);
     auto must_not_scorer = _make_should(not_scorers, 1);
-    return mmse::make<ReqExclScorer>(must_scorer, must_not_scorer);
+    //return mmse::make<ReqExclScorer>(must_scorer, must_not_scorer);
+    return new ReqExclScorer(must_scorer, must_not_scorer);
 }
 
 ScorerPtr BooleanScorer2::_make_counting_sum_scorer() {
@@ -92,12 +120,14 @@ ScorerPtr BooleanScorer2::_make_counting_sum_scorer() {
 
     if (_optional_scorers.size() > 0 && _optional_scorers.size() < _min_should_match) {
         // 无法满足最少匹配的数量
-        return mmse::make<EmptyScorer>();
+        // return mmse::make<EmptyScorer>();
+        return new EmptyScorer();
     }
     if (bit_case == 1) {
         // only must_not
         // 否定查询必须和其他条件搭配，否则不允许查询
-        return mmse::make<EmptyScorer>();
+        // return mmse::make<EmptyScorer>();
+        return new EmptyScorer();
     }
    if (bit_case == 2) {
         // only should
@@ -112,7 +142,8 @@ ScorerPtr BooleanScorer2::_make_counting_sum_scorer() {
         // 这种情况should会被认为是must
         auto must_scorer = _make_should(_optional_scorers, _min_should_match);
         auto exclude_scorer = _make_should(_prohibited_scorers, 1);
-        return mmse::make<ReqExclScorer>(must_scorer, exclude_scorer);
+        //return mmse::make<ReqExclScorer>(must_scorer, exclude_scorer);
+        return new ReqExclScorer(must_scorer, exclude_scorer);
     }
     if (bit_case == 5) {
         // must + must_not
@@ -154,6 +185,5 @@ std::vector<std::string> BooleanScorer2::explain() const {
     }
     return outputs;
 }
-
 
 } // namespace

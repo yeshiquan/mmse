@@ -4,24 +4,44 @@
 #include "ref_ptr.h"
 
 // Query, Weight, Scorer是3棵树
-// 这3种对象是一次查询请求处理过程中构建的
-// 所有对象都用RefPtr包装，不是线程安全的
+// 这些对象是一次查询请求处理过程中构建的
+// 所有对象都使用侵入式引用计数的方式管理生命周期，不是线程安全的
 // 确保这些对象不要用在多线程环境下。
 
 namespace mmse {
 
 class Query;
 class Scorer;
-using ScorerPtr = RefPtr<Scorer>;
-using QueryPtr = RefPtr<Query>;
+using ScorerPtr = Scorer*;
+using QueryPtr = Query*;
 
 class Weight {
 public:
     virtual ~Weight() {}
     virtual Query* get_query() { return nullptr; }
     virtual ScorerPtr make_scorer() = 0;
+
+    Weight() = default;
+    Weight(Weight const&) = delete;             // Copy construct
+    Weight(Weight&&) = delete;                  // Move construct
+    Weight& operator=(Weight const&) = delete;  // Copy assign
+    Weight& operator=(Weight &&) = delete;      // Move assign     
+public:
+    void inc_ref() { 
+        _ref_cnt++; 
+        //std::cout << "Weight inc_ref after:" << _ref_cnt << std::endl;
+    }
+    void dec_ref() {
+        //std::cout << "Weight dec_ref current:" << _ref_cnt << " after:" << _ref_cnt - 1 << " " << this << std::endl;
+        if (--_ref_cnt == 0) {
+            delete this;
+        }
+    }
+    int ref_cnt() const { return _ref_cnt; }
+private:
+    uint32_t _ref_cnt{0};
 };
-using WeightPtr = RefPtr<Weight>;
+using WeightPtr = Weight*;
 
 // Scorer同时承担2大功能
 // 1) Scorer本身是一个迭代器，通过next_doc()可以遍历所有文档
@@ -42,6 +62,20 @@ public:
     virtual DocId skip_to(DocId target) = 0;
     virtual DocId doc() const = 0;
     virtual DocId next_doc() = 0;
+
+    void inc_ref() { 
+        _ref_cnt++; 
+        //std::cout << "Scorer inc_ref after:" << _ref_cnt << std::endl;
+    }
+    void dec_ref() {
+        //std::cout << "Scorer dec_ref current:" << _ref_cnt << " after:" << _ref_cnt - 1 << " " << this << std::endl;
+        if (--_ref_cnt == 0) {
+            delete this;
+        }
+    }
+    int ref_cnt() const { return _ref_cnt; }
+private:
+    int _ref_cnt{0};    
 };
 
 // 用户通过构建Query查询树来检索文档
@@ -50,6 +84,26 @@ public:
     virtual ~Query() {}
     virtual WeightPtr make_weight() = 0;
     virtual void rewrite() {}
+
+    Query() = default;
+    Query(Query const&) = delete;             // Copy construct
+    Query(Query&&) = delete;                  // Move construct
+    Query& operator=(Query const&) = delete;  // Copy assign
+    Query& operator=(Query &&) = delete;      // Move assign     
+
+    void inc_ref() { 
+        _ref_cnt++; 
+        //std::cout << "Query inc_ref after:" << _ref_cnt << std::endl;
+    }
+    void dec_ref() {
+        //std::cout << "Query dec_ref current:" << _ref_cnt << " after:" << _ref_cnt - 1 << " " << this << std::endl;
+        if (--_ref_cnt == 0) {
+            delete this;
+        }
+    }
+    int ref_cnt() const { return _ref_cnt; }
+private:
+    uint32_t _ref_cnt{0};
 };
  
 } // unise

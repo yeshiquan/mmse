@@ -9,10 +9,16 @@ ConjunctionScorer::ConjunctionScorer() {
 
 ConjunctionScorer::~ConjunctionScorer() {
     std::cout << "~ConjunctionScorer()" << std::endl;
+    for (auto& scorer : _scorers) {
+        scorer->dec_ref();
+    }    
 }
 
 ConjunctionScorer::ConjunctionScorer(std::vector<ScorerPtr>& scorers) 
                 : _scorers(scorers) {
+    for (auto& scorer : _scorers) {
+        scorer->inc_ref();
+    }
     for (auto& scorer : _scorers) {
         if (scorer->next_doc() == NO_MORE_DOCS) {
             _last_doc = NO_MORE_DOCS;

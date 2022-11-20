@@ -30,7 +30,7 @@ private:
     ScorerPtr _make_must_plus_should(std::vector<ScorerPtr>&, std::vector<ScorerPtr>&);
     ScorerPtr _make_must_plus_mustnot(std::vector<ScorerPtr>&, std::vector<ScorerPtr>&);
 private:
-    ScorerPtr _counting_sum_scorer; // 领头的scorer
+    ScorerPtr _counting_sum_scorer{nullptr}; // 领头的scorer
     std::vector<ScorerPtr> _optional_scorers;
     std::vector<ScorerPtr> _required_scorers;
     std::vector<ScorerPtr> _prohibited_scorers;

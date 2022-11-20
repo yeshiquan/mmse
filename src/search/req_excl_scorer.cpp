@@ -8,11 +8,15 @@ ReqExclScorer::ReqExclScorer() {
 ReqExclScorer::ReqExclScorer(ScorerPtr req, ScorerPtr excl)
         : _required_scorer(req)
         , _exclude_scorer(excl) {
+    _required_scorer->inc_ref();
+    _exclude_scorer->inc_ref();
     _exclude_scorer->next_doc();
 }
 
 ReqExclScorer::~ReqExclScorer() {
     std::cout << "~ReqExclScorer()" << std::endl;
+    _required_scorer->dec_ref();
+    _exclude_scorer->dec_ref();    
 }
 
 DocId ReqExclScorer::next_doc() {
