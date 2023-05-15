@@ -46,13 +46,13 @@ public:
     RefPtr(const RefPtr& r) noexcept {
         ptr = r.ptr; //让两个指针指向同一个地方
         count = r.count; //让count指针和原来的指向同一个地方
-        ++*r.count; //原来的对象的引用计数++
+        if (r.count) ++*r.count; //原来的对象的引用计数++
     }
     template<typename U>
     RefPtr(const RefPtr<U>& r) noexcept {
         ptr = r.ptr;
         count = r.count;
-        ++*r.count;
+        if (r.count) ++*r.count;
     }    
     //移动构造
     RefPtr(RefPtr&& r) noexcept {
